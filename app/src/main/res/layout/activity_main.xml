@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="#111111">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Yandex BYD Bridge"
+        android:textColor="#E53935"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Checking status..."
+        android:textColor="#AAAAAA"
+        android:textSize="13sp"
+        android:gravity="center"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="v1.0 — OpenBYD bridge via AUTONAVI_STANDARD_BROADCAST_SEND"
+        android:textColor="#555555"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/btnGrant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Grant Notification Access"
+        android:backgroundTint="#E53935"
+        android:textColor="#FFFFFF"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"/>
+
+</LinearLayout>

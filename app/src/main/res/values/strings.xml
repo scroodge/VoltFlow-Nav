@@ -8,12 +8,15 @@
     <string name="setup_tile_accessibility">Accessibility</string>
     <string name="setup_tile_capture">Screen capture</string>
     <string name="setup_tile_project_media">PROJECT_MEDIA (optional)</string>
-    <string name="setup_tile_battery">Background / battery</string>
+    <string name="setup_tile_background">Disable background Apps</string>
+    <string name="setup_status_manual">Set OFF in list</string>
     <string name="setup_status_ok">OK</string>
     <string name="setup_status_off">OFF</string>
     <string name="setup_status_pending">Pending</string>
     <string name="setup_btn_capture">Restart screen capture</string>
-    <string name="setup_btn_battery">Open battery settings</string>
+    <string name="setup_btn_background">Open Disable background Apps</string>
+    <string name="setup_background_open_failed">Could not open DiLink background settings. Open Settings → General → Disable background Apps manually.</string>
+    <string name="setup_background_hint">DiLink blacklist: VoltFlow Nav must be OFF (OFF = background allowed).</string>
     <string name="setup_btn_copy_adb">Copy ADB command</string>
     <string name="setup_a11y_title">Optional: system accessibility</string>
     <string name="setup_a11y_body">Usually blocked on DiLink 3.0. Try only if Shizuku is unavailable on your head unit.</string>

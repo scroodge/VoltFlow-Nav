@@ -9,6 +9,13 @@
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-06-04
+
+### Изменено
+
+- Вместо неработающей оптимизации батареи Android — экран DiLink **Disable background Apps** (как [BYDMate](https://github.com/AndyShaman/BYDMate)): для VoltFlow Nav переключатель **OFF** (OFF = фон разрешён).
+- Кнопка **Open Disable background Apps** в приложении; убрано `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`.
+
 ## [1.1.0] - 2026-06-04
 
 ### Добавлено
@@ -31,6 +38,7 @@
 - Автопроверка GitHub Releases и загрузка/установка APK в приложении.
 - Инструмент changelog (`./gradlew releaseChangelog`) и проверка версии перед release-сборкой.
 
-[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/scroodge/VoltFlow-Nav/releases/tag/v1.0.0

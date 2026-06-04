@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-06-04
+
+### Changed
+
+- Replace non-working Android battery optimization with BYD DiLink **Disable background Apps** screen (`com.byd.appstartmanagement`), matching [BYDMate](https://github.com/AndyShaman/BYDMate): VoltFlow Nav must be **OFF** in the blacklist (OFF = background allowed).
+- Setup docs and in-app button **Open Disable background Apps**; removed `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`.
+
 ## [1.1.0] - 2026-06-04
 
 ### Added
@@ -31,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Releases auto-update check and in-app APK download/install.
 - Release changelog tooling (`./gradlew releaseChangelog`) and version guard before release builds.
 
-[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/scroodge/VoltFlow-Nav/releases/tag/v1.0.0

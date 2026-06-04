@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.os.PowerManager
 import android.provider.Settings
 import android.text.TextUtils
 
@@ -134,14 +133,23 @@ object SetupHelper {
         }
     }
 
-    fun isBatteryUnrestricted(context: Context): Boolean {
-        val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-        return pm.isIgnoringBatteryOptimizations(context.packageName)
-    }
-
-    fun batterySettingsIntent(context: Context): Intent {
-        return Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-            data = Uri.parse("package:${context.packageName}")
+    /**
+     * BYD DiLink "Disable background Apps" blacklist (same screen as BYDMate).
+     * OFF for VoltFlow Nav = app may run in background; ON = DiLink may kill the bridge.
+     */
+    fun openDisableBackgroundAppsSettings(context: Context): Boolean {
+        val intent = Intent(Intent.ACTION_MAIN).apply {
+            setClassName(
+                "com.byd.appstartmanagement",
+                "com.byd.appstartmanagement.frame.AppStartManagement",
+            )
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+        if (launchIfResolvable(context, intent)) return true
+        val fallback = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+            data = Uri.parse("package:${context.packageName}")
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        return launchIfResolvable(context, fallback)
     }
 }

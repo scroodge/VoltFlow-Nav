@@ -44,7 +44,8 @@ adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
 8. **VoltFlow Nav** → **Grant via Shizuku** → разрешите доступ Shizuku.
 9. Плитки: **Accessibility: OK** (и при возможности **PROJECT_MEDIA: OK**).
 10. **Restart screen capture** (снова после каждой перезагрузки).
-11. По желанию: настройки батареи без ограничений для VoltFlow.
+11. **Open Disable background Apps** в VoltFlow (или **Настройки → General → Disable background Apps**). Для **VoltFlow Nav** переключатель **OFF**.  
+    **OFF = фон разрешён** (чёрный список, как в [BYDMate](https://github.com/AndyShaman/BYDMate)). **ON** = DiLink может убить мост.
 
 ### После перезагрузки
 
@@ -78,7 +79,7 @@ adb connect <car-ip>:5555
 adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 ```
 
-Далее на машине — захват экрана и батарея в VoltFlow.
+Далее на машине — захват экрана и **Disable background Apps = OFF**.
 
 ---
 

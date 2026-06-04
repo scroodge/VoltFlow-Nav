@@ -192,7 +192,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tvTileBattery"
+            android:id="@+id/tvTileBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -210,13 +210,22 @@
             android:textColor="@color/vf_background" />
 
         <Button
-            android:id="@+id/btnBattery"
+            android:id="@+id/btnBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:backgroundTint="@color/vf_card"
-            android:text="@string/setup_btn_battery"
+            android:text="@string/setup_btn_background"
             android:textColor="@color/vf_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/setup_background_hint"
+            android:textColor="@color/vf_text_muted"
+            android:textSize="11sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

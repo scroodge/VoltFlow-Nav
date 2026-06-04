@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTileAccessibility: TextView
     private lateinit var tvTileCapture: TextView
     private lateinit var tvTileProjectMedia: TextView
-    private lateinit var tvTileBattery: TextView
+    private lateinit var tvTileBackground: TextView
     private lateinit var tvAppVersion: TextView
     private lateinit var switchAutoCheck: SwitchCompat
     private lateinit var btnGrant: Button
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         tvTileAccessibility = findViewById(R.id.tvTileAccessibility)
         tvTileCapture = findViewById(R.id.tvTileCapture)
         tvTileProjectMedia = findViewById(R.id.tvTileProjectMedia)
-        tvTileBattery = findViewById(R.id.tvTileBattery)
+        tvTileBackground = findViewById(R.id.tvTileBackground)
         tvAppVersion = findViewById(R.id.tvAppVersion)
         switchAutoCheck = findViewById(R.id.switchAutoCheck)
         btnGrant = findViewById(R.id.btnGrant)
@@ -82,8 +82,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnShizukuGrant).setOnClickListener { onShizukuGrantClicked() }
         findViewById<Button>(R.id.btnCopyAdb).setOnClickListener { copyAdbCommand() }
         ShizukuSetupHelper.addPermissionListener(shizukuPermissionListener)
-        findViewById<Button>(R.id.btnBattery).setOnClickListener {
-            runCatching { startActivity(SetupHelper.batterySettingsIntent(this)) }
+        findViewById<Button>(R.id.btnBackground).setOnClickListener {
+            openDisableBackgroundAppsSettings()
         }
         switchAutoCheck.isChecked = UpdateChecker.isAutoCheckEnabled(this)
         switchAutoCheck.setOnCheckedChangeListener { _, enabled ->
@@ -239,15 +239,18 @@ class MainActivity : AppCompatActivity() {
             if (media) R.string.setup_status_ok else R.string.setup_status_pending
         )
 
-        val battery = SetupHelper.isBatteryUnrestricted(this)
-        tvTileBattery.text = tileLine(
-            getString(R.string.setup_tile_battery),
-            if (battery) R.string.setup_status_ok else R.string.setup_status_pending
+        tvTileBackground.text = tileLine(
+            getString(R.string.setup_tile_background),
+            R.string.setup_status_manual,
         )
     }
 
     private fun tileLine(label: String, statusRes: Int): String {
-        val mark = if (statusRes == R.string.setup_status_ok) "\u2713" else "\u2717"
+        val mark = when (statusRes) {
+            R.string.setup_status_ok -> "\u2713"
+            R.string.setup_status_manual -> "\u25CB"
+            else -> "\u2717"
+        }
         return "$mark $label: ${getString(statusRes)}"
     }
 
@@ -259,6 +262,11 @@ class MainActivity : AppCompatActivity() {
     private fun openShizukuApp() {
         if (ShizukuSetupHelper.launchShizukuApp(this)) return
         Toast.makeText(this, R.string.setup_shizuku_not_installed, Toast.LENGTH_LONG).show()
+    }
+
+    private fun openDisableBackgroundAppsSettings() {
+        if (SetupHelper.openDisableBackgroundAppsSettings(this)) return
+        Toast.makeText(this, R.string.setup_background_open_failed, Toast.LENGTH_LONG).show()
     }
 
     private fun onShizukuGrantClicked() {

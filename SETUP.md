@@ -44,7 +44,7 @@ adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
 8. **VoltFlow Nav** → **Grant via Shizuku** → дазвольце доступ Shizuku.
 9. Пліткі статусу: **Accessibility: OK** (і пры магчымасці **PROJECT_MEDIA: OK**).
 10. **Restart screen capture** і пацвердзіце сістэмны дыялог (зноў пасля кожнай перазагрузкі).
-11. Опцыянальна: **Open battery settings** — без абмежаванняў для VoltFlow Nav.
+11. **Open Disable background Apps** — **VoltFlow Nav** = **OFF** (OFF дазваляе фон; як у [BYDMate](https://github.com/AndyShaman/BYDMate)).
 
 ### Пасля перазагрузкі
 

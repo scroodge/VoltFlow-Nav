@@ -44,7 +44,8 @@ adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
 8. Open **VoltFlow Nav** → tap **Grant via Shizuku** → allow Shizuku access when prompted.
 9. Check status tiles: **Accessibility: OK** (and optionally **PROJECT_MEDIA: OK**).
 10. Tap **Restart screen capture** and confirm the system dialog (needed again after each reboot).
-11. Optional: **Open battery settings** and disable restrictions for VoltFlow Nav.
+11. Tap **Open Disable background Apps** in VoltFlow (or **Settings → General → Disable background Apps** on DiLink). Find **VoltFlow Nav** and set the switch to **OFF**.  
+    **OFF = background allowed** (blacklist, same as [BYDMate](https://github.com/AndyShaman/BYDMate)). **ON** = DiLink may kill the bridge.
 
 ### After reboot
 
@@ -82,7 +83,7 @@ Grant only:
 adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 ```
 
-Then open VoltFlow Nav on the head unit for screen capture and battery.
+Then open VoltFlow Nav on the head unit for screen capture and **Disable background Apps = OFF**.
 
 ---
 

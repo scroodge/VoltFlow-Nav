@@ -9,6 +9,13 @@
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-06-04
+
+### Зменена
+
+- Замест непрацуючай оптымізацыі батарэі Android — экран DiLink **Disable background Apps** (як [BYDMate](https://github.com/AndyShaman/BYDMate)): VoltFlow Nav = **OFF**.
+- Кнопка **Open Disable background Apps**; выдалена `REQUEST_IGNORE_BATTERY_OPTIMIZATIONS`.
+
 ## [1.1.0] - 2026-06-04
 
 ### Дададзена

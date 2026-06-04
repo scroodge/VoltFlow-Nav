@@ -9,6 +9,19 @@
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-06-04
+
+### Добавлено
+
+- **Настройка через Shizuku (рекомендуется на DiLink 3.0):** кнопка **Grant via Shizuku** выдаёт `WRITE_SECURE_SETTINGS`, включает accessibility и `PROJECT_MEDIA`.
+- Кнопка **Open Shizuku app** на экране настройки.
+- Руководства SETUP (EN/RU/BE) со ссылками на Shizuku и командами запуска через USB ADB на Android 10.
+
+### Изменено
+
+- Порядок на экране настройки: Shizuku → ADB с ПК → accessibility вручную (опционально).
+- README: Shizuku-first; на DiLink 3.0 переключатель accessibility в Настройках заблокирован (Yuan UP).
+
 ## [1.0.0] - 2026-06-04
 
 ### Добавлено
@@ -18,5 +31,6 @@
 - Автопроверка GitHub Releases и загрузка/установка APK в приложении.
 - Инструмент changelog (`./gradlew releaseChangelog`) и проверка версии перед release-сборкой.
 
-[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/scroodge/VoltFlow-Nav/releases/tag/v1.0.0

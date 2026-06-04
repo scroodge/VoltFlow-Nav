@@ -35,14 +35,14 @@
 ## Compatibility
 
 - **Vehicle:** BYD Yuan UP (tested)
-- **DiLink:** 3.0
+- **DiLink:** 3.0 (`ro.build.product=DiLink3.0`, `ro.vehicle.type=Di3.0_3.5UI`)
 - **Android:** 10
 - **Navigator:** `ru.yandex.yandexnavi`
 
 ## Quick install
 
-1. Download APK from [Releases](https://github.com/scroodge/VoltFlow-Nav/releases).
-2. Sideload on the head unit.
+1. Download APK from [Releases](https://github.com/scroodge/VoltFlow-Nav/releases) (`VoltFlowNav-*.apk`).
+2. Sideload on the head unit (file manager or `adb install -r VoltFlowNav.apk`).
 3. Open **VoltFlow Nav** and follow the in-app setup screen.
 4. Once from a PC over ADB:
 
@@ -76,10 +76,22 @@ VoltFlow Nav → AUTONAVI_STANDARD_BROADCAST_SEND → com.example.amapservice �
 
 See [CLUSTER_PROTOCOL.en.md](CLUSTER_PROTOCOL.en.md) and [YANDEX_UI.en.md](YANDEX_UI.en.md).
 
+## Documentation
+
+| Topic | Belarusian | English | Russian |
+|-------|------------|---------|---------|
+| Contributing | [be](../CONTRIBUTING.md) | [en](CONTRIBUTING.en.md) | [ru](CONTRIBUTING.ru.md) |
+| HUD protocol | [be](../CLUSTER_PROTOCOL.md) | [en](CLUSTER_PROTOCOL.en.md) | [ru](CLUSTER_PROTOCOL.ru.md) |
+| Yandex UI | [be](../YANDEX_UI.md) | [en](YANDEX_UI.en.md) | [ru](YANDEX_UI.ru.md) |
+| Release | [be](PUBLISH.md) | [en](PUBLISH.en.md) | [ru](PUBLISH.ru.md) |
+| Marketing | [be](MARKETING_LAUNCH.md) | [en](MARKETING_LAUNCH.en.md) | [ru](MARKETING_LAUNCH.ru.md) |
+| OpenBYD patch | [be](../openbyd-patch/PATCH_NOTES.md) | [en](PATCH_NOTES.en.md) | [ru](PATCH_NOTES.ru.md) |
+| Changelog | [be](CHANGELOG.be.md) | [en](../CHANGELOG.md) | [ru](CHANGELOG.ru.md) |
+
 ## Limitations
 
 - Yandex must stay **on screen** while navigating.
-- Re-tap screen capture after **reboot**.
+- Re-tap screen capture after **reboot** (in-app button: «Restart screen capture»).
 - v1.0 maneuvers: mostly **left / right / straight**.
 - Drive panel is experimental.
 
@@ -105,17 +117,9 @@ Free and **MIT**. Optional donations help BYD hardware testing and the VoltFlow 
 
 ```bash
 ./gradlew assembleDebug
+# APK: app/build/outputs/apk/debug/VoltFlowNav-1.0.0-debug.apk
 adb logcat -s VoltFlowNav
 ```
-
-## Documentation
-
-| Topic | Belarusian | English | Russian |
-|-------|------------|---------|---------|
-| Contributing | [be](../CONTRIBUTING.md) | **en** | [ru](CONTRIBUTING.ru.md) |
-| HUD protocol | [be](../CLUSTER_PROTOCOL.md) | [en](CLUSTER_PROTOCOL.en.md) | [ru](CLUSTER_PROTOCOL.ru.md) |
-| Yandex UI | [be](../YANDEX_UI.md) | [en](YANDEX_UI.en.md) | [ru](YANDEX_UI.ru.md) |
-| Release | [be](PUBLISH.md) | [en](PUBLISH.en.md) | [ru](PUBLISH.ru.md) |
 
 ## Contributing
 

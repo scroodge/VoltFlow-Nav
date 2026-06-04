@@ -12,7 +12,11 @@
 
 ## Отчёты по авто
 
-Модель, DiLink, версия Yandex, работает ли HUD / центральный экран.
+В issue/PR укажите:
+
+- Модель BYD, версия DiLink (`adb shell getprop ro.build.product`)
+- Версия Яндекс Навигатора
+- Что работает: HUD / центральный экран
 
 ## Не коммитить
 
@@ -25,4 +29,4 @@
 adb install -r app/build/outputs/apk/debug/VoltFlowNav-*-debug.apk
 ```
 
-Настройка на машине — только в приложении VoltFlow Nav.
+Настройка на машине — только в приложении VoltFlow Nav (+ одноразовый ADB grant в README).

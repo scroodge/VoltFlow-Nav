@@ -12,7 +12,11 @@ Thank you! MIT licensed — [github.com/scroodge/VoltFlow-Nav](https://github.co
 
 ## Car reports
 
-Include model, DiLink version (`adb shell getprop ro.build.product`), Yandex app version, and whether HUD / drive panel work.
+In issues/PRs include:
+
+- BYD model, DiLink version (`adb shell getprop ro.build.product`)
+- Yandex Navigator app version
+- What works: HUD / drive panel
 
 ## Local-only paths (gitignored)
 

@@ -54,4 +54,9 @@
     <string name="update_download_install">Download and install</string>
     <string name="update_retry">Try again</string>
     <string name="update_dialog_close">Close</string>
+    <string name="setup_dilink_label">Instrument cluster (DiLink)</string>
+    <string name="setup_dilink_auto">Auto</string>
+    <string name="setup_dilink_3">DiLink 3</string>
+    <string name="setup_dilink_5">DiLink 5</string>
+    <string name="setup_dilink_selected">Target: DiLink %s</string>
 </resources>

@@ -59,7 +59,7 @@ class YandexA11yService : AccessibilityService() {
                     navActive = false
                     lastSignature = ""
                     Log.d(TAG, "maneuver panel gone — STOP")
-                    AmapBroadcastSender.sendNaviStop(this)
+                    ClusterBridge.sendNaviStop(this)
                 }
                 return
             }
@@ -83,7 +83,7 @@ class YandexA11yService : AccessibilityService() {
             Log.d(TAG, "PANEL dist=$distNum$metrics -> ${segDist}m road='$road'->'$roadLatin' " +
                     "routeDist=$routeDist routeTime=$routeTime eta=$eta")
 
-            AmapBroadcastSender.sendNaviUpdate(
+            ClusterBridge.sendNaviUpdate(
                 context = this,
                 iconId = icon,
                 segRemainDist = segDist,

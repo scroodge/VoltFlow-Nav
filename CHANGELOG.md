@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-06-04
+
+### Added
+
+- **Experimental DiLink 5/6 cluster output** (broadcast-first): drives the cluster on DiLink 5/6 using the OpenBYD-style `AUTONAVI_STANDARD_BROADCAST_SEND` format (`TYPE=8`, `IS_BYD_MAP=true`, OpenBYD `NEW_ICON` numbering), alongside the existing DiLink 3 path.
+- **Auto / DiLink 3 / DiLink 5** target switch on the setup screen, with auto-detection from system properties (`ro.build.product` / `ro.vehicle.type`). DiLink 3 behavior is unchanged.
+
+### Fixed
+
+- Screen capture now re-establishes on every app open while it isn't running, so after a reboot just opening the app restores it (the previous one-shot auto-request was consumed by the boot auto-launch, leaving only the manual button).
+
 ## [1.1.1] - 2026-06-04
 
 ### Added
@@ -42,7 +53,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Releases auto-update check and in-app APK download/install.
 - Release changelog tooling (`./gradlew releaseChangelog`) and version guard before release builds.
 
-[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/scroodge/VoltFlow-Nav/releases/tag/v1.0.0

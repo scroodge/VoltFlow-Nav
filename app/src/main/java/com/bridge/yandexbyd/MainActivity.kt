@@ -37,7 +37,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnLangBe: Button
     private lateinit var btnLangEn: Button
     private lateinit var btnLangRu: Button
+    private lateinit var btnDilinkAuto: Button
+    private lateinit var btnDilink3: Button
+    private lateinit var btnDilink5: Button
     private var autoCaptureTried = false
+    private var lastCaptureRequestMs = 0L
     private var autoUpdateChecked = false
     private var shizukuGrantInProgress = false
 
@@ -79,6 +83,13 @@ class MainActivity : AppCompatActivity() {
         btnLangEn.setOnClickListener { switchLanguage(AppLocale.EN) }
         btnLangRu.setOnClickListener { switchLanguage(AppLocale.RU) }
         refreshLanguageButtons()
+        btnDilinkAuto = findViewById(R.id.btnDilinkAuto)
+        btnDilink3 = findViewById(R.id.btnDilink3)
+        btnDilink5 = findViewById(R.id.btnDilink5)
+        btnDilinkAuto.setOnClickListener { selectDilink(DiLinkTarget.AUTO) }
+        btnDilink3.setOnClickListener { selectDilink(DiLinkTarget.DILINK3) }
+        btnDilink5.setOnClickListener { selectDilink(DiLinkTarget.DILINK5) }
+        refreshDilinkButtons()
         cardAccessibility = findViewById(R.id.cardAccessibility)
         cardShizuku = findViewById(R.id.cardShizuku)
         cardAdb = findViewById(R.id.cardAdb)
@@ -125,11 +136,16 @@ class MainActivity : AppCompatActivity() {
         if (!SetupHelper.isProjectMediaAllowed(this)) {
             SetupHelper.tryAllowProjectMedia(this)
         }
+        // Re-establish screen capture on every open while it's not running (the
+        // MediaProjection token is lost on each reboot). PROJECT_MEDIA=allow means
+        // no dialog, so retrying is silent; throttle to avoid a permission-activity
+        // loop when a request bounces back.
         if (SetupHelper.isAccessibilityEnabled(this) &&
             !CaptureService.isReady() &&
-            !autoCaptureTried
+            System.currentTimeMillis() - lastCaptureRequestMs > 3000L
         ) {
             autoCaptureTried = true
+            lastCaptureRequestMs = System.currentTimeMillis()
             requestCapture()
         }
         refreshStatus()
@@ -337,6 +353,30 @@ class MainActivity : AppCompatActivity() {
         if (AppLocale.getTag(this) == tag) return
         AppLocale.setTag(this, tag)
         recreate()
+    }
+
+    private fun selectDilink(target: DiLinkTarget) {
+        DiLink.setTarget(this, target)
+        refreshDilinkButtons()
+        val resolved = DiLink.resolved(this).name.removePrefix("DILINK")
+        Toast.makeText(
+            this,
+            getString(R.string.setup_dilink_selected, resolved),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    private fun refreshDilinkButtons() {
+        val primary = getColor(R.color.vf_primary)
+        val muted = getColor(R.color.vf_text_muted)
+        fun style(btn: Button, active: Boolean) {
+            btn.setTextColor(if (active) primary else muted)
+            btn.paint.isFakeBoldText = active
+        }
+        val target = DiLink.savedTarget(this)
+        style(btnDilinkAuto, target == DiLinkTarget.AUTO)
+        style(btnDilink3, target == DiLinkTarget.DILINK3)
+        style(btnDilink5, target == DiLinkTarget.DILINK5)
     }
 
     private fun refreshLanguageButtons() {

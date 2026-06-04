@@ -54,4 +54,9 @@
     <string name="update_download_install">Спампаваць і ўсталяваць</string>
     <string name="update_retry">Паспрабаваць зноў</string>
     <string name="update_dialog_close">Закрыць</string>
+    <string name="setup_dilink_label">Прыборная панэль (DiLink)</string>
+    <string name="setup_dilink_auto">Аўта</string>
+    <string name="setup_dilink_3">DiLink 3</string>
+    <string name="setup_dilink_5">DiLink 5</string>
+    <string name="setup_dilink_selected">Мэта: DiLink %s</string>
 </resources>

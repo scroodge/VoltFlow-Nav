@@ -80,6 +80,59 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tvDilinkLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:text="@string/setup_dilink_label"
+            android:textColor="@color/vf_text_muted"
+            android:textSize="12sp" />
+
+        <LinearLayout
+            android:id="@+id/dilinkBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnDilinkAuto"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/setup_dilink_auto"
+                android:textAllCaps="true"
+                android:textColor="@color/vf_primary"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnDilink3"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/setup_dilink_3"
+                android:textAllCaps="true"
+                android:textColor="@color/vf_text_muted"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnDilink5"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/setup_dilink_5"
+                android:textAllCaps="true"
+                android:textColor="@color/vf_text_muted"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/cardShizuku"
             android:layout_width="match_parent"

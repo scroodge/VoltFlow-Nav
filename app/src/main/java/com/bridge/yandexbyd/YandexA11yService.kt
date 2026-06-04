@@ -25,7 +25,7 @@ import java.io.FileOutputStream
 class YandexA11yService : AccessibilityService() {
 
     companion object {
-        const val TAG = "YandexBYDBridge"
+        const val TAG = "VoltFlowNav"
         const val YANDEX_PKG = "ru.yandex.yandexnavi"
 
         private const val ID_DIST = "$YANDEX_PKG:id/text_maneuverballoon_distance"

@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">VoltFlow Nav</string>
     <string name="a11y_desc">Reads Yandex Navigator\'s on-screen turn panel and forwards distance, street and ETA to the BYD instrument cluster.</string>
+
+    <string name="setup_title">VoltFlow Nav</string>
+    <string name="setup_subtitle">Yandex Navigator on your BYD HUD</string>
+    <string name="setup_tile_accessibility">Accessibility</string>
+    <string name="setup_tile_capture">Screen capture</string>
+    <string name="setup_tile_project_media">PROJECT_MEDIA (optional)</string>
+    <string name="setup_tile_battery">Background / battery</string>
+    <string name="setup_status_ok">OK</string>
+    <string name="setup_status_off">OFF</string>
+    <string name="setup_status_pending">Pending</string>
+    <string name="setup_btn_capture">Restart screen capture</string>
+    <string name="setup_btn_battery">Open battery settings</string>
+    <string name="setup_btn_copy_adb">Copy ADB command</string>
+    <string name="setup_adb_title">One-time setup from a PC</string>
+    <string name="setup_adb_body">DiLink blocks enabling accessibility in Settings. Connect USB/Wi‑Fi ADB once, then open the app on the car.</string>
+    <string name="setup_adb_copied">ADB command copied</string>
+    <string name="setup_hint_amap">Keep BYD AMap navigation off while using Yandex.</string>
+    <string name="setup_hint_yandex">Yandex must stay visible on screen during navigation.</string>
 </resources>

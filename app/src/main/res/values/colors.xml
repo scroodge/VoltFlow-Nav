@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vf_background">#12151C</color>
+    <color name="vf_card">#171B24</color>
+    <color name="vf_border">#273040</color>
+    <color name="vf_text">#F8FAFC</color>
+    <color name="vf_text_muted">#94A3B8</color>
+    <color name="vf_primary">#00E676</color>
+    <color name="vf_cyan">#00D1FF</color>
+    <color name="vf_error">#FF5252</color>
+</resources>

@@ -30,7 +30,7 @@ import android.view.WindowManager
 class CaptureService : Service() {
 
     companion object {
-        const val TAG = "YandexBYDBridge"
+        const val TAG = "VoltFlowNav"
         const val EXTRA_RESULT_CODE = "rc"
         const val EXTRA_DATA = "data"
         private const val CH_ID = "capture"
@@ -58,7 +58,8 @@ class CaptureService : Service() {
             )
         }
         val notif: Notification = Notification.Builder(this, CH_ID)
-            .setContentTitle("Yandex BYD Bridge")
+            .setContentTitle(getString(R.string.app_name))
+            .setSmallIcon(R.drawable.ic_voltflow_notification)
             .setContentText("Reading navigation arrow")
             .setSmallIcon(android.R.drawable.ic_menu_compass)
             .build()

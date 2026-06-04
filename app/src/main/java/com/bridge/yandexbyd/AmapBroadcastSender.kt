@@ -14,7 +14,7 @@ import android.util.Log
  */
 object AmapBroadcastSender {
 
-    private const val TAG = "YandexBYDBridge"
+    private const val TAG = "VoltFlowNav"
     private const val ACTION = "AUTONAVI_STANDARD_BROADCAST_SEND"
 
     // KEY_TYPE values

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!-- Lets the app re-enable its own accessibility service after a reinstall.
          Grant once: adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS -->
@@ -10,7 +11,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:label="Yandex BYD Bridge"
+        android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
 

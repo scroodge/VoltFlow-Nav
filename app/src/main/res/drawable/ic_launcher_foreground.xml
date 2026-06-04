@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- VoltFlow mark (scaled from voltflow-icon.svg, safe zone ~72dp) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Turn-right arrow within the 72x72 adaptive-icon safe zone -->
     <path
-        android:fillColor="#E53935"
-        android:pathData="M48,72 L48,56 C48,52 50,50 54,50 L64,50 L64,60 L80,46 L64,32 L64,42 L52,42 C44,42 40,46 40,54 L40,72 Z" />
+        android:fillColor="#00E676"
+        android:pathData="M18.5,24.5 L47.8,83.4 H57.1 L86.4,24.5 H70.3 L54,61.6 L37.7,24.5 Z" />
+    <path
+        android:fillColor="#12151C"
+        android:pathData="M59.9,20.3 L38,54.9 H52.5 L47.7,87.8 L70.4,48.1 H56.5 L59.9,20.3 Z" />
+    <path
+        android:fillColor="#00D1FF"
+        android:pathData="M59.5,27.9 L43.7,52.1 H56.7 L53.2,75.1 L67.4,50.9 H55.1 L59.5,27.9 Z" />
 </vector>

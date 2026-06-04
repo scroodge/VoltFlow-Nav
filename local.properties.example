@@ -1,0 +1,9 @@
+## Copy to local.properties (never commit local.properties).
+sdk.dir=/path/to/Android/sdk
+
+VOLTFLOW_NAV_STORE_FILE=voltflow-nav-release.keystore
+VOLTFLOW_NAV_STORE_PASSWORD=your-store-password
+VOLTFLOW_NAV_KEY_ALIAS=voltflow-nav
+VOLTFLOW_NAV_KEY_PASSWORD=your-key-password
+
+# If the password contains #, escape it as \# (otherwise the rest of the line is treated as a comment).

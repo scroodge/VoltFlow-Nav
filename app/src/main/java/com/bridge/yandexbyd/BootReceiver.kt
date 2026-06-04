@@ -22,7 +22,7 @@ class BootReceiver : BroadcastReceiver() {
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 )
             } catch (e: Exception) {
-                Log.w("YandexBYDBridge", "boot launch blocked: ${e.message}")
+                Log.w("VoltFlowNav", "boot launch blocked: ${e.message}")
             }
         }
     }

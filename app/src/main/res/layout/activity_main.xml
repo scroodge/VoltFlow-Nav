@@ -1,48 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="32dp"
-    android:background="#111111">
+    android:background="@color/vf_background"
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Yandex BYD Bridge"
-        android:textColor="#E53935"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="8dp"/>
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Checking status..."
-        android:textColor="#AAAAAA"
-        android:textSize="13sp"
-        android:gravity="center"
-        android:layout_marginBottom="4dp"/>
+        <ImageView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_launcher_foreground" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="v1.0 — OpenBYD bridge via AUTONAVI_STANDARD_BROADCAST_SEND"
-        android:textColor="#555555"
-        android:textSize="10sp"
-        android:gravity="center"
-        android:layout_marginBottom="32dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="@string/setup_title"
+            android:textColor="@color/vf_primary"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnGrant"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Grant Notification Access"
-        android:backgroundTint="#E53935"
-        android:textColor="#FFFFFF"
-        android:paddingStart="24dp"
-        android:paddingEnd="24dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:text="@string/setup_subtitle"
+            android:textColor="@color/vf_text_muted"
+            android:textSize="13sp" />
 
-</LinearLayout>
+        <LinearLayout
+            android:id="@+id/cardAdb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@color/vf_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_adb_title"
+                android:textColor="@color/vf_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/setup_adb_body"
+                android:textColor="@color/vf_text_muted"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvAdbCommand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="monospace"
+                android:textColor="@color/vf_cyan"
+                android:textIsSelectable="true"
+                android:textSize="11sp" />
+
+            <Button
+                android:id="@+id/btnCopyAdb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/vf_primary"
+                android:text="@string/setup_btn_copy_adb"
+                android:textColor="@color/vf_background" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTileAccessibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@color/vf_card"
+            android:padding="14dp"
+            android:textColor="@color/vf_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvTileCapture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@color/vf_card"
+            android:padding="14dp"
+            android:textColor="@color/vf_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvTileProjectMedia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@color/vf_card"
+            android:padding="14dp"
+            android:textColor="@color/vf_text"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvTileBattery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@color/vf_card"
+            android:padding="14dp"
+            android:textColor="@color/vf_text"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnGrant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/vf_primary"
+            android:text="@string/setup_btn_capture"
+            android:textColor="@color/vf_background" />
+
+        <Button
+            android:id="@+id/btnBattery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/vf_card"
+            android:text="@string/setup_btn_battery"
+            android:textColor="@color/vf_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="@string/setup_hint_amap"
+            android:textColor="@color/vf_text_muted"
+            android:textSize="11sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center"
+            android:text="@string/setup_hint_yandex"
+            android:textColor="@color/vf_text_muted"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,20 +1,29 @@
 package com.bridge.yandexbyd
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.media.projection.MediaProjectionManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var tvStatus: TextView
+    private lateinit var cardAdb: LinearLayout
+    private lateinit var tvAdbCommand: TextView
+    private lateinit var tvTileAccessibility: TextView
+    private lateinit var tvTileCapture: TextView
+    private lateinit var tvTileProjectMedia: TextView
+    private lateinit var tvTileBattery: TextView
     private lateinit var btnGrant: Button
     private var autoCaptureTried = false
 
@@ -32,18 +41,34 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        tvStatus = findViewById(R.id.tvStatus)
+        cardAdb = findViewById(R.id.cardAdb)
+        tvAdbCommand = findViewById(R.id.tvAdbCommand)
+        tvTileAccessibility = findViewById(R.id.tvTileAccessibility)
+        tvTileCapture = findViewById(R.id.tvTileCapture)
+        tvTileProjectMedia = findViewById(R.id.tvTileProjectMedia)
+        tvTileBattery = findViewById(R.id.tvTileBattery)
         btnGrant = findViewById(R.id.btnGrant)
+        tvAdbCommand.text = SetupHelper.ADB_GRANT_CMD
         btnGrant.setOnClickListener { requestCapture() }
+        findViewById<Button>(R.id.btnCopyAdb).setOnClickListener { copyAdbCommand() }
+        findViewById<Button>(R.id.btnBattery).setOnClickListener {
+            runCatching { startActivity(SetupHelper.batterySettingsIntent(this)) }
+        }
         autoCaptureTried = false
     }
 
     override fun onResume() {
         super.onResume()
-        // Self-heal accessibility (disabled by Android on every reinstall).
-        if (!isAccessibilityEnabled()) tryEnableAccessibility()
-        // Auto-establish screen capture once per app open (projection is lost on reboot).
-        if (isAccessibilityEnabled() && !CaptureService.isReady() && !autoCaptureTried) {
+        if (!SetupHelper.isAccessibilityEnabled(this)) {
+            SetupHelper.tryEnableAccessibility(this)
+        }
+        if (!SetupHelper.isProjectMediaAllowed(this)) {
+            SetupHelper.tryAllowProjectMedia(this)
+        }
+        if (SetupHelper.isAccessibilityEnabled(this) &&
+            !CaptureService.isReady() &&
+            !autoCaptureTried
+        ) {
             autoCaptureTried = true
             requestCapture()
         }
@@ -51,50 +76,58 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshStatus() {
-        val a11y = isAccessibilityEnabled()
-        tvStatus.text = buildString {
-            append(if (a11y) "✓ Accessibility enabled\n" else "✗ Accessibility OFF\n")
-            append(if (CaptureService.isReady()) "✓ Screen capture running" else "… starting screen capture")
-        }
-        btnGrant.text = "Restart Screen Capture"
+        val adbOk = SetupHelper.hasWriteSecureSettings(this)
+        cardAdb.visibility = if (adbOk) View.GONE else View.VISIBLE
+
+        val a11y = SetupHelper.isAccessibilityEnabled(this)
+        tvTileAccessibility.text = tileLine(
+            getString(R.string.setup_tile_accessibility),
+            if (a11y) R.string.setup_status_ok else R.string.setup_status_off
+        )
+
+        val capture = CaptureService.isReady()
+        tvTileCapture.text = tileLine(
+            getString(R.string.setup_tile_capture),
+            if (capture) R.string.setup_status_ok else R.string.setup_status_pending
+        )
+
+        val media = SetupHelper.isProjectMediaAllowed(this)
+        tvTileProjectMedia.text = tileLine(
+            getString(R.string.setup_tile_project_media),
+            if (media) R.string.setup_status_ok else R.string.setup_status_pending
+        )
+
+        val battery = SetupHelper.isBatteryUnrestricted(this)
+        tvTileBattery.text = tileLine(
+            getString(R.string.setup_tile_battery),
+            if (battery) R.string.setup_status_ok else R.string.setup_status_pending
+        )
+    }
+
+    private fun tileLine(label: String, statusRes: Int): String {
+        val mark = if (statusRes == R.string.setup_status_ok) "\u2713" else "\u2717"
+        return "$mark $label: ${getString(statusRes)}"
+    }
+
+    private fun copyAdbCommand() {
+        val cm = getSystemService(ClipboardManager::class.java)
+        cm.setPrimaryClip(ClipData.newPlainText("adb", SetupHelper.ADB_GRANT_CMD))
+        Toast.makeText(this, R.string.setup_adb_copied, Toast.LENGTH_SHORT).show()
     }
 
     private fun requestCapture() {
         val mpm = getSystemService(MediaProjectionManager::class.java)
         runCatching { projLauncher.launch(mpm.createScreenCaptureIntent()) }
-            .onFailure { tvStatus.text = "Screen-capture request failed: ${it.message}" }
-    }
-
-    /**
-     * Re-enable our accessibility service without ADB. Needs WRITE_SECURE_SETTINGS,
-     * granted once via `adb shell pm grant <pkg> android.permission.WRITE_SECURE_SETTINGS`
-     * (that grant survives reinstalls, so the app keeps healing itself).
-     */
-    private fun tryEnableAccessibility() {
-        try {
-            val component = "$packageName/$packageName.YandexA11yService"
-            val current = Settings.Secure.getString(
-                contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
-            ).orEmpty()
-            val set = current.split(':').filter { it.isNotEmpty() }.toMutableSet()
-            if (set.add(component)) {
-                Settings.Secure.putString(
-                    contentResolver,
-                    Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES,
-                    set.joinToString(":")
+            .onFailure {
+                Log.w(TAG, "screen capture request failed: ${it.message}")
+                tvTileCapture.text = tileLine(
+                    getString(R.string.setup_tile_capture),
+                    R.string.setup_status_off
                 )
             }
-            Settings.Secure.putInt(contentResolver, Settings.Secure.ACCESSIBILITY_ENABLED, 1)
-            Log.d("YandexBYDBridge", "accessibility self-enabled")
-        } catch (e: Exception) {
-            Log.w("YandexBYDBridge", "auto-enable accessibility failed (grant WRITE_SECURE_SETTINGS): ${e.message}")
-        }
     }
 
-    private fun isAccessibilityEnabled(): Boolean {
-        val flat = Settings.Secure.getString(
-            contentResolver, Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES
-        )
-        return !TextUtils.isEmpty(flat) && flat.contains(packageName)
+    companion object {
+        private const val TAG = "VoltFlowNav"
     }
 }

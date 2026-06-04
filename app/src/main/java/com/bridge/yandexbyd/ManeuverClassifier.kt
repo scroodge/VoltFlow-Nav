@@ -18,7 +18,7 @@ import android.util.Log
  */
 object ManeuverClassifier {
 
-    private const val TAG = "YandexBYDBridge"
+    private const val TAG = "VoltFlowNav"
 
     fun classify(bmp: Bitmap): Int {
         val w = bmp.width

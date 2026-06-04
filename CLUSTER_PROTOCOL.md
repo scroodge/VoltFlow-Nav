@@ -1,5 +1,11 @@
 # BYD DiLink 3.0 cluster navigation protocol (Yuan UP, China)
 
+**Мова / Language:** [Беларуская](README.md) · [English](docs/README.en.md) · [Русский](docs/README.ru.md)
+
+**Каротка (be):** Пратакол штокавага моста AMap — `AUTONAVI_STANDARD_BROADCAST_SEND` → `com.example.amapservice` → HUD. VoltFlow Nav адпраўляе гэты broadcast без root.
+
+---
+
 Reverse-engineered from `com.example.amapservice` (`/system/priv-app/AmapService/AmapService.apk`)
 on `ro.build.product=DiLink3.0`, Android 10, `ro.vehicle.type=Di3.0_3.5UI`.
 

@@ -1,5 +1,11 @@
 # Yandex Navigator turn-panel UI (for AccessibilityService reading)
 
+**Мова / Language:** [Беларуская](README.md) · [English](docs/README.en.md) · [Русский](docs/README.ru.md)
+
+**Каротка (be):** Yandex не аддае манёўры праз апавяшчэнні — чытаем resource-id панэлі павароту праз AccessibilityService; стрэлку класіфікуем з захопу экрана.
+
+---
+
 Yandex Navigator (`ru.yandex.yandexnavi`) does **not** expose turn-by-turn via its
 notification (`title="Навигатор запущен"`, text/contentView null) or MediaSession.
 The data is only on-screen, so we read it with an AccessibilityService.
@@ -10,11 +16,11 @@ Captured via `uiautomator dump` during active navigation. All `content-desc` are
 |-------|-------------|---------|-------|
 | maneuver distance (number) | `ru.yandex.yandexnavi:id/text_maneuverballoon_distance` | `100` | → SEG_REMAIN_DIS |
 | maneuver distance (unit)   | `ru.yandex.yandexnavi:id/text_maneuverballoon_metrics`  | ` м` / ` км` | multiply by 1000 for км |
-| next street                | `ru.yandex.yandexnavi:id/text_nextstreet`               | `Минская ул.` | → NEXT_ROAD_NAME (transliterate) |
+| next street                | `ru.yandex.yandexnavi:id/text_nextstreet`               | `ul. Pryklad` | → NEXT_ROAD_NAME (transliterate) |
 | route remaining distance   | `ru.yandex.yandexnavi:id/textview_eta_distance`         | `2,7 км` | → ROUTE_REMAIN_DIS |
 | route remaining time       | `ru.yandex.yandexnavi:id/textview_eta_time`             | `5 мин`  | → ROUTE_REMAIN_TIME |
 | ETA clock                  | `ru.yandex.yandexnavi:id/textview_eta_arrival`          | `11:05`  | → ETA_TEXT |
-| current road (status)      | `ru.yandex.yandexnavi:id/statusPanel` / `text_statuspanel` | `Садовый пр-д` | informational |
+| current road (status)      | `ru.yandex.yandexnavi:id/statusPanel` / `text_statuspanel` | `pr. Pryklad` | informational |
 | current speed              | `ru.yandex.yandexnavi:id/text_speed_value`             | `0` | not used |
 | speed limit                | `ru.yandex.yandexnavi:id/text_speedlimit`              | `60` | not used |
 | **maneuver arrow**         | `ru.yandex.yandexnavi:id/image_maneuverballoon_maneuver` | image, bounds ~84×84 | **NO text/desc — direction needs image classification (Phase 2)** |

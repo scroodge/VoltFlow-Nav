@@ -1,0 +1,41 @@
+name: Bug report / Памылка
+description: Something broke on your car
+title: "[bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **BE:** Апішыце аўтамабіль і DiLink. **EN:** Include vehicle and DiLink version.
+  - type: input
+    id: vehicle
+    attributes:
+      label: Vehicle / Аўтамабіль
+      placeholder: BYD Yuan UP
+    validations:
+      required: true
+  - type: input
+    id: dilink
+    attributes:
+      label: DiLink version
+      placeholder: adb shell getprop ro.build.product
+  - type: dropdown
+    id: hud
+    attributes:
+      label: HUD works?
+      options:
+        - "Yes / Так"
+        - "No / Не"
+        - "Partial / Часткова"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logcat
+      description: adb logcat -s VoltFlowNav
+      render: shell
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true

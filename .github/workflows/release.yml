@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - run: chmod +x gradlew
+      - name: Assemble release APK
+        run: ./gradlew assembleRelease --no-daemon
+      - name: Copy release APK
+        run: |
+          mkdir -p dist
+          cp app/build/outputs/apk/release/VoltFlowNav-*-release.apk dist/VoltFlowNav-${{ github.ref_name }}.apk
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/VoltFlowNav-*.apk
+          generate_release_notes: true
+          body: |
+            ## VoltFlow Nav ${{ github.ref_name }}
+
+            Сцягніце APK і ўсталюйце на BYD DiLink 3.0. Наладка — у дадатку + аднаразовы ADB grant (глядзі README).
+
+            **English:** Download APK, sideload on head unit, follow in-app setup. One-time `adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS`.

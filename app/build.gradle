@@ -3,6 +3,18 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader) }
+}
+
+def voltflowStoreFile = localProperties.getProperty('VOLTFLOW_NAV_STORE_FILE')
+def voltflowSigningReady = voltflowStoreFile != null &&
+        localProperties.getProperty('VOLTFLOW_NAV_STORE_PASSWORD') != null &&
+        localProperties.getProperty('VOLTFLOW_NAV_KEY_ALIAS') != null &&
+        localProperties.getProperty('VOLTFLOW_NAV_KEY_PASSWORD') != null
+
 android {
     namespace 'com.bridge.yandexbyd'
     compileSdk 34
@@ -12,15 +24,40 @@ android {
         minSdk 26
         targetSdk 34
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
     }
-    buildTypes { release { minifyEnabled false } }
+
+    signingConfigs {
+        release {
+            if (voltflowSigningReady) {
+                storeFile rootProject.file(voltflowStoreFile)
+                storePassword localProperties.getProperty('VOLTFLOW_NAV_STORE_PASSWORD')
+                keyAlias localProperties.getProperty('VOLTFLOW_NAV_KEY_ALIAS')
+                keyPassword localProperties.getProperty('VOLTFLOW_NAV_KEY_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (voltflowSigningReady) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions { jvmTarget = '1.8' }
     buildFeatures { viewBinding true }
+}
+
+android.applicationVariants.configureEach { variant ->
+    variant.outputs.configureEach { output ->
+        output.outputFileName = "VoltFlowNav-${variant.versionName}-${variant.buildType.name}.apk"
+    }
 }
 
 dependencies {

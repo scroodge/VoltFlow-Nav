@@ -30,7 +30,9 @@
 <tr><td><strong>Полная поддержка центра</strong></td><td>В планах</td><td>Будущая версия</td></tr>
 </table>
 
-<img src="assets/readme/hud-demo.jpg" width="600" alt="HUD demo" />
+<p align="center">
+  <img src="assets/readme/hud-demo.jpg" width="600" alt="HUD demo" />
+</p>
 
 ## Совместимость
 

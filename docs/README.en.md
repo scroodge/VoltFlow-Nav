@@ -30,7 +30,9 @@
 <tr><td><strong>Full drive panel</strong></td><td>Roadmap</td><td>Future release</td></tr>
 </table>
 
-<img src="assets/readme/hud-demo.jpg" width="600" alt="HUD demo" />
+<p align="center">
+  <img src="assets/readme/hud-demo.jpg" width="600" alt="HUD demo" />
+</p>
 
 ## Compatibility
 

@@ -19,7 +19,7 @@
 
 **VoltFlow Nav** is a free, open-source bridge from **Yandex Navigator** to the **BYD DiLink 3.0** cluster — no root, no OpenBYD. Part of the [VoltFlow](https://github.com/scroodge/VoltFlow) ecosystem.
 
-> **Disclaimer.** Not affiliated with Yandex, BYD, or AMap/Gaode. Install at your own risk. Requires Accessibility and screen capture to read Yandex’s on-screen maneuver panel.
+> **Disclaimer.** Not affiliated with Yandex, BYD, or AMap/Gaode. Install at your own risk. On DiLink 3.0 you need **Shizuku** (or one-time PC ADB) for accessibility; screen capture for maneuver arrows. See [SETUP.en.md](SETUP.en.md).
 
 ## What works today
 
@@ -36,7 +36,7 @@
 
 ## Compatibility
 
-- **Vehicle:** BYD Yuan UP (tested)
+- **Vehicle:** BYD Yuan UP 2024 (tested)
 - **DiLink:** 3.0 (`ro.build.product=DiLink3.0`, `ro.vehicle.type=Di3.0_3.5UI`)
 - **Android:** 10
 - **Navigator:** `ru.yandex.yandexnavi`
@@ -75,7 +75,7 @@ See [CLUSTER_PROTOCOL.en.md](CLUSTER_PROTOCOL.en.md) and [YANDEX_UI.en.md](YANDE
 
 | Topic | Belarusian | English | Russian |
 |-------|------------|---------|---------|
-| Setup (3 tiers) | [be](../SETUP.md) | [en](SETUP.en.md) | [ru](SETUP.ru.md) |
+| Setup | [be](../SETUP.md) | [en](SETUP.en.md) | [ru](SETUP.ru.md) |
 | Contributing | [be](../CONTRIBUTING.md) | [en](CONTRIBUTING.en.md) | [ru](CONTRIBUTING.ru.md) |
 | HUD protocol | [be](../CLUSTER_PROTOCOL.md) | [en](CLUSTER_PROTOCOL.en.md) | [ru](CLUSTER_PROTOCOL.ru.md) |
 | Yandex UI | [be](../YANDEX_UI.md) | [en](YANDEX_UI.en.md) | [ru](YANDEX_UI.ru.md) |
@@ -87,7 +87,7 @@ See [CLUSTER_PROTOCOL.en.md](CLUSTER_PROTOCOL.en.md) and [YANDEX_UI.en.md](YANDE
 ## Limitations
 
 - Yandex must stay **on screen** while navigating.
-- Re-tap screen capture after **reboot** (in-app button: «Restart screen capture»).
+- After **reboot**: restart **Shizuku** (step 6 in [SETUP.en.md](SETUP.en.md)), then **screen capture** again («Restart screen capture»).
 - v1.0 maneuvers: mostly **left / right / straight**.
 - Drive panel is experimental.
 

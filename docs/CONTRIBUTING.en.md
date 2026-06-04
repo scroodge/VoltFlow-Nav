@@ -29,4 +29,4 @@ Do not commit `arrows/`, `openbyd-patch/`, `ui.xml`, or vendor APKs.
 adb install -r app/build/outputs/apk/debug/VoltFlowNav-*-debug.apk
 ```
 
-Car setup is in-app only (see README for one-time ADB grant).
+Car setup: [SETUP.en.md](SETUP.en.md) (Shizuku on DiLink 3.0, or one-time [`setup-car.sh`](../setup-car.sh) from a PC).

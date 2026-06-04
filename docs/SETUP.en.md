@@ -1,6 +1,6 @@
 # VoltFlow Nav — setup (DiLink 3.0 / Android 10)
 
-**Language:** English · [Russian](SETUP.ru.md) · [Belarusian](../SETUP.md)
+**Language:** [Belarusian](../SETUP.md) · **English** · [Russian](SETUP.ru.md)
 
 On **BYD DiLink 3.0**, enabling VoltFlow Nav in system **Accessibility settings does not work** (toggle blocked). The path that works is **Shizuku** on the head unit, then **Grant via Shizuku** inside VoltFlow Nav.
 
@@ -73,7 +73,7 @@ Same result as Shizuku grant, without installing Shizuku on the car:
 
 ```bash
 adb connect <car-ip>:5555
-./setup-car.sh /path/to/VoltFlowNav-v1.0.0.apk
+./setup-car.sh /path/to/VoltFlowNav-v1.1.0.apk
 ```
 
 Grant only:

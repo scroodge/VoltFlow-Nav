@@ -15,7 +15,7 @@
 
 - **Наладка праз Shizuku (рэкамендуецца на DiLink 3.0):** **Grant via Shizuku** — `WRITE_SECURE_SETTINGS`, accessibility, `PROJECT_MEDIA`.
 - Кнопка **Open Shizuku app**.
-- Дакументацыя SETUP са спасылкамі на Shizuku і USB ADB (Android 10).
+- Дакументацыя: [SETUP.md](../SETUP.md), [SETUP.en.md](SETUP.en.md), [SETUP.ru.md](SETUP.ru.md) — спасылкі на Shizuku (GitHub, Play, інструкцыя) і USB ADB на Android 10.
 
 ### Зменена
 

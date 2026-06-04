@@ -15,7 +15,7 @@
 
 - **Настройка через Shizuku (рекомендуется на DiLink 3.0):** кнопка **Grant via Shizuku** выдаёт `WRITE_SECURE_SETTINGS`, включает accessibility и `PROJECT_MEDIA`.
 - Кнопка **Open Shizuku app** на экране настройки.
-- Руководства SETUP (EN/RU/BE) со ссылками на Shizuku и командами запуска через USB ADB на Android 10.
+- Руководства: [SETUP.md](../SETUP.md), [SETUP.en.md](SETUP.en.md), [SETUP.ru.md](SETUP.ru.md) — ссылки на Shizuku и команды запуска через USB ADB на Android 10.
 
 ### Изменено
 

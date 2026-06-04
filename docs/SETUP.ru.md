@@ -69,7 +69,7 @@ adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
 
 ```bash
 adb connect <car-ip>:5555
-./setup-car.sh /path/to/VoltFlowNav-v1.0.0.apk
+./setup-car.sh /path/to/VoltFlowNav-v1.1.0.apk
 ```
 
 Только grant:
@@ -84,8 +84,12 @@ adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 
 ## Приложение: проверка уведомлений Yandex
 
+Для возможного будущего моста через уведомления (модель OpenBYD) проверьте, заполняет ли Yandex поля на вашей прошивке DiLink:
+
 ```bash
+adb logcat -c
+# Запустите маршрут в Yandex, затем:
 adb shell dumpsys notification --noredact | grep -A30 ru.yandex.yandexnavi
 ```
 
-См. [YANDEX_UI.ru.md](YANDEX_UI.ru.md).
+Непустые `title` / `text` / `subText` в **ongoing**-уведомлении обязательны. Если пусто — оставайтесь на Accessibility + MediaProjection. См. [YANDEX_UI.ru.md](YANDEX_UI.ru.md).

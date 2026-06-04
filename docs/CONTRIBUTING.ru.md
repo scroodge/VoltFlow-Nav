@@ -29,4 +29,4 @@
 adb install -r app/build/outputs/apk/debug/VoltFlowNav-*-debug.apk
 ```
 
-Настройка на машине — только в приложении VoltFlow Nav (+ одноразовый ADB grant в README).
+Настройка на машине — [SETUP.ru.md](SETUP.ru.md) (Shizuku на DiLink 3.0 или `./setup-car.sh` с ПК).

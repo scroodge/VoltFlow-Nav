@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoltFlow Nav</string>
+    <string name="a11y_desc">Reads Yandex Navigator\'s on-screen turn panel and forwards distance, street and ETA to the BYD instrument cluster.</string>
+
+    <string name="setup_title">VoltFlow Nav</string>
+    <string name="setup_subtitle">Yandex Navigator on your BYD HUD</string>
+    <string name="setup_tile_accessibility">Accessibility</string>
+    <string name="setup_tile_capture">Screen capture</string>
+    <string name="setup_tile_project_media">PROJECT_MEDIA (optional)</string>
+    <string name="setup_tile_background">Disable background Apps</string>
+    <string name="setup_status_manual">Set OFF in list</string>
+    <string name="setup_status_ok">OK</string>
+    <string name="setup_status_off">OFF</string>
+    <string name="setup_status_pending">Pending</string>
+    <string name="setup_btn_capture">Restart screen capture</string>
+    <string name="setup_btn_background">Open Disable background Apps</string>
+    <string name="setup_background_open_failed">Could not open DiLink background settings. Open Settings → General → Disable background Apps manually.</string>
+    <string name="setup_background_hint">DiLink blacklist: VoltFlow Nav must be OFF (OFF = background allowed).</string>
+    <string name="setup_btn_copy_adb">Copy ADB command</string>
+    <string name="setup_a11y_title">Optional: system accessibility</string>
+    <string name="setup_a11y_body">Usually blocked on DiLink 3.0. Try only if Shizuku is unavailable on your head unit.</string>
+    <string name="setup_btn_open_a11y">Open accessibility settings</string>
+    <string name="setup_a11y_open_failed">Could not open accessibility settings</string>
+    <string name="setup_adb_title">Alternative: one-time PC ADB</string>
+    <string name="setup_adb_body">Same as Shizuku grant without installing Shizuku. Run once from a PC, then reopen this app.</string>
+    <string name="setup_adb_copied">ADB command copied</string>
+    <string name="setup_shizuku_title">Recommended: Shizuku setup</string>
+    <string name="setup_shizuku_body">Install Shizuku, start it via USB ADB once (Android 10). See SETUP guide in README. Then tap Grant below.</string>
+    <string name="setup_btn_shizuku_grant">Grant via Shizuku</string>
+    <string name="setup_btn_open_shizuku">Open Shizuku app</string>
+    <string name="setup_shizuku_not_installed">Shizuku is not installed. Download from GitHub or Play (see README).</string>
+    <string name="setup_shizuku_not_running">Shizuku is not running. Open the Shizuku app and start the service.</string>
+    <string name="setup_shizuku_permission_denied">Allow Shizuku access for VoltFlow Nav, then try again.</string>
+    <string name="setup_shizuku_grant_ok">Permissions granted via Shizuku</string>
+    <string name="setup_shizuku_grant_failed">Shizuku grant failed. Try PC ADB or manual accessibility.</string>
+    <string name="setup_shizuku_working">Granting via Shizuku…</string>
+    <string name="setup_hint_amap">Keep BYD AMap navigation off while using Yandex.</string>
+    <string name="setup_hint_yandex">Yandex must stay visible on screen during navigation.</string>
+
+    <string name="update_section_title">Updates</string>
+    <string name="update_version_label">Version v%1$s</string>
+    <string name="update_auto_check">Check for updates on launch</string>
+    <string name="update_auto_check_hint">Checks GitHub Releases when you open the app</string>
+    <string name="update_check_now">Check for updates now</string>
+    <string name="update_dialog_title">Updates</string>
+    <string name="update_current_version">Installed: v%1$s</string>
+    <string name="update_checking">Checking GitHub Releases…</string>
+    <string name="update_up_to_date">You have the latest version.</string>
+    <string name="update_available">Update available: v%1$s</string>
+    <string name="update_whats_new">What\'s new:</string>
+    <string name="update_downloading">Downloading v%1$s\n%2$s</string>
+    <string name="update_error">Error: %1$s</string>
+    <string name="update_download_install">Download and install</string>
+    <string name="update_retry">Try again</string>
+    <string name="update_dialog_close">Close</string>
+</resources>

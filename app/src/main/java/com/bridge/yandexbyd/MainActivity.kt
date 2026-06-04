@@ -2,6 +2,7 @@ package com.bridge.yandexbyd
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.media.projection.MediaProjectionManager
 import android.os.Build
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvAppVersion: TextView
     private lateinit var switchAutoCheck: SwitchCompat
     private lateinit var btnGrant: Button
+    private lateinit var btnLangBe: Button
+    private lateinit var btnLangEn: Button
+    private lateinit var btnLangRu: Button
     private var autoCaptureTried = false
     private var autoUpdateChecked = false
     private var shizukuGrantInProgress = false
@@ -61,9 +65,20 @@ class MainActivity : AppCompatActivity() {
             refreshStatus()
         }
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(AppLocale.wrap(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        btnLangBe = findViewById(R.id.btnLangBe)
+        btnLangEn = findViewById(R.id.btnLangEn)
+        btnLangRu = findViewById(R.id.btnLangRu)
+        btnLangBe.setOnClickListener { switchLanguage(AppLocale.BE) }
+        btnLangEn.setOnClickListener { switchLanguage(AppLocale.EN) }
+        btnLangRu.setOnClickListener { switchLanguage(AppLocale.RU) }
+        refreshLanguageButtons()
         cardAccessibility = findViewById(R.id.cardAccessibility)
         cardShizuku = findViewById(R.id.cardShizuku)
         cardAdb = findViewById(R.id.cardAdb)
@@ -316,6 +331,38 @@ class MainActivity : AppCompatActivity() {
                     R.string.setup_status_off
                 )
             }
+    }
+
+    private fun switchLanguage(tag: String) {
+        if (AppLocale.getTag(this) == tag) return
+        AppLocale.setTag(this, tag)
+        recreate()
+    }
+
+    private fun refreshLanguageButtons() {
+        val primary = getColor(R.color.vf_primary)
+        val muted = getColor(R.color.vf_text_muted)
+        fun style(btn: Button, active: Boolean) {
+            btn.setTextColor(if (active) primary else muted)
+            btn.paint.isFakeBoldText = active
+        }
+        when (AppLocale.getTag(this)) {
+            AppLocale.EN -> {
+                style(btnLangBe, false)
+                style(btnLangEn, true)
+                style(btnLangRu, false)
+            }
+            AppLocale.RU -> {
+                style(btnLangBe, false)
+                style(btnLangEn, false)
+                style(btnLangRu, true)
+            }
+            else -> {
+                style(btnLangBe, true)
+                style(btnLangEn, false)
+                style(btnLangRu, false)
+            }
+        }
     }
 
     companion object {

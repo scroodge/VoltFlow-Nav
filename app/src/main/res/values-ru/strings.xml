@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VoltFlow Nav</string>
+    <string name="a11y_desc">Читает панель поворотов Яндекс Навигатора на экране и передаёт расстояние, улицу и ETA на приборную панель BYD.</string>
+
+    <string name="setup_title">VoltFlow Nav</string>
+    <string name="setup_subtitle">Яндекс Навигатор на HUD BYD</string>
+    <string name="setup_tile_accessibility">Спец. возможности</string>
+    <string name="setup_tile_capture">Захват экрана</string>
+    <string name="setup_tile_project_media">PROJECT_MEDIA (необязательно)</string>
+    <string name="setup_tile_background">Отключить фоновые приложения</string>
+    <string name="setup_status_manual">В списке — OFF</string>
+    <string name="setup_status_ok">ОК</string>
+    <string name="setup_status_off">OFF</string>
+    <string name="setup_status_pending">Ожидание</string>
+    <string name="setup_btn_capture">Перезапустить захват экрана</string>
+    <string name="setup_btn_background">Открыть «Отключить фоновые приложения»</string>
+    <string name="setup_background_open_failed">Не удалось открыть настройки фона DiLink. Откройте Настройки → Общие → Отключить фоновые приложения вручную.</string>
+    <string name="setup_background_hint">Чёрный список DiLink: VoltFlow Nav должен быть OFF (OFF = фон разрешён).</string>
+    <string name="setup_btn_copy_adb">Скопировать команду ADB</string>
+    <string name="setup_a11y_title">Необязательно: системные спец. возможности</string>
+    <string name="setup_a11y_body">Обычно заблокировано на DiLink 3.0. Пробуйте только если Shizuku недоступен на вашей магнитоле.</string>
+    <string name="setup_btn_open_a11y">Открыть настройки спец. возможностей</string>
+    <string name="setup_a11y_open_failed">Не удалось открыть настройки спец. возможностей</string>
+    <string name="setup_adb_title">Альтернатива: одноразовый ADB с ПК</string>
+    <string name="setup_adb_body">То же, что выдача через Shizuku, без установки Shizuku. Запустите один раз с ПК, затем снова откройте приложение.</string>
+    <string name="setup_adb_copied">Команда ADB скопирована</string>
+    <string name="setup_shizuku_title">Рекомендуется: настройка Shizuku</string>
+    <string name="setup_shizuku_body">Установите Shizuku, запустите один раз через USB ADB (Android 10). См. SETUP в README. Затем нажмите «Выдать» ниже.</string>
+    <string name="setup_btn_shizuku_grant">Выдать через Shizuku</string>
+    <string name="setup_btn_open_shizuku">Открыть Shizuku</string>
+    <string name="setup_shizuku_not_installed">Shizuku не установлен. Скачайте с GitHub или Play (см. README).</string>
+    <string name="setup_shizuku_not_running">Shizuku не запущен. Откройте приложение Shizuku и запустите сервис.</string>
+    <string name="setup_shizuku_permission_denied">Разрешите доступ Shizuku для VoltFlow Nav и попробуйте снова.</string>
+    <string name="setup_shizuku_grant_ok">Разрешения выданы через Shizuku</string>
+    <string name="setup_shizuku_grant_failed">Выдача через Shizuku не удалась. Попробуйте ADB с ПК или спец. возможности вручную.</string>
+    <string name="setup_shizuku_working">Выдача через Shizuku…</string>
+    <string name="setup_hint_amap">При Яндексе держите навигацию BYD AMap выключенной.</string>
+    <string name="setup_hint_yandex">Во время навигации Яндекс должен оставаться на экране.</string>
+
+    <string name="update_section_title">Обновления</string>
+    <string name="update_version_label">Версия v%1$s</string>
+    <string name="update_auto_check">Проверять обновления при запуске</string>
+    <string name="update_auto_check_hint">Проверяет GitHub Releases при открытии приложения</string>
+    <string name="update_check_now">Проверить обновления сейчас</string>
+    <string name="update_dialog_title">Обновления</string>
+    <string name="update_current_version">Установлено: v%1$s</string>
+    <string name="update_checking">Проверка GitHub Releases…</string>
+    <string name="update_up_to_date">У вас последняя версия.</string>
+    <string name="update_available">Доступно обновление: v%1$s</string>
+    <string name="update_whats_new">Что нового:</string>
+    <string name="update_downloading">Загрузка v%1$s\n%2$s</string>
+    <string name="update_error">Ошибка: %1$s</string>
+    <string name="update_download_install">Скачать и установить</string>
+    <string name="update_retry">Повторить</string>
+    <string name="update_dialog_close">Закрыть</string>
+</resources>

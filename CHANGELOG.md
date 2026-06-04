@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.1] - 2026-06-04
 
+### Added
+
+- In-app UI languages: **Belarusian** (default), English, and Russian, with **BY / EN / RU** switcher on the setup screen. Choice is saved and applied on next launch.
+
 ### Changed
 
 - Replace non-working Android battery optimization with BYD DiLink **Disable background Apps** screen (`com.byd.appstartmanagement`), matching [BYDMate](https://github.com/AndyShaman/BYDMate): VoltFlow Nav must be **OFF** in the blacklist (OFF = background allowed).

@@ -38,6 +38,7 @@
 - Аўтаправерка GitHub Releases і спампоўка/усталёўка APK у дадатку.
 - Інструмент changelog (`./gradlew releaseChangelog`) і праверка версіі перад release-зборкай.
 
-[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/scroodge/VoltFlow-Nav/releases/tag/v1.0.0

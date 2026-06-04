@@ -1,56 +1,91 @@
-# VoltFlow Nav — уровни настройки (DiLink 3.0 / Android 10)
+# VoltFlow Nav — настройка (DiLink 3.0 / Android 10)
 
 **Язык:** [Беларуская](../SETUP.md) · [English](SETUP.en.md) · **Русский**
 
-Выберите первый способ, который работает на вашей головной. Экран настройки в приложении следует тому же порядку.
+На **BYD DiLink 3.0** включить VoltFlow Nav в **Специальных возможностях** системы **не получается** (переключатель заблокирован). Рабочий путь — **Shizuku** на головном устройстве, затем **Grant via Shizuku** в VoltFlow Nav.
 
-## Уровень 1 — Специальные возможности в Настройках (без ПК)
+Подробная инструкция ниже. Экран настройки в приложении в том же порядке.
 
-1. Установите и откройте **VoltFlow Nav**.
-2. Нажмите **Open accessibility settings** и включите **VoltFlow Nav**.
-3. Вернитесь в приложение; разрешите **захват экрана** (после каждой перезагрузки снова).
-4. При необходимости откройте **настройки батареи** из приложения.
+---
 
-**Проверка на машине:**
+## Рекомендуется: Shizuku (DiLink 3.0)
 
-- Открывается экран службы: `adb shell am start -a android.settings.ACCESSIBILITY_DETAILS_SETTINGS -e android.intent.extra.COMPONENT_NAME com.bridge.yandexbyd/com.bridge.yandexbyd.YandexA11yService`
-- После включения плитка **Accessibility: OK**, в `enabled_accessibility_services` есть `com.bridge.yandexbyd`.
+### Скачать Shizuku
 
-Если DiLink блокирует переключатель — уровень 2 или 3.
+| Источник | Ссылка |
+|----------|--------|
+| APK (установка с флешки/файлов) | [GitHub Releases — RikkaApps/Shizuku](https://github.com/RikkaApps/Shizuku/releases) |
+| Google Play (если доступен) | [Shizuku в Play Store](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api) |
+| Официальная инструкция | [shizuku.rikka.app/guide/setup](https://shizuku.rikka.app/guide/setup/) |
+| Android 10: запуск через USB ADB | [Подключение к компьютеру](https://shizuku.rikka.app/guide/setup/#start-by-connecting-to-a-computer) |
 
-## Уровень 2 — Shizuku на головном устройстве
+Имя пакета: `moe.shizuku.privileged.api`
 
-1. Установите [Shizuku](https://shizuku.rikka.app/).
-2. Запустите Shizuku (на **Android 10** первый запуск — **USB ADB** один раз).
-3. В VoltFlow Nav: **Grant via Shizuku**, разрешите доступ Shizuku.
+### Пошагово (головное устройство Android 10)
 
-Выдаёт `WRITE_SECURE_SETTINGS`, включает accessibility и `PROJECT_MEDIA` (как [`setup-car.sh`](../setup-car.sh)).
+1. Установите APK **VoltFlow Nav** ([Releases](https://github.com/scroodge/VoltFlow-Nav/releases)).
+2. Установите **Shizuku** с GitHub или Play (см. таблицу).
+3. На головном устройстве: **Для разработчиков** и **Отладка по USB**.
+4. Подключите машину к ПК, `adb devices`, на экране — **Разрешить отладку** (лучше **Всегда**).
+5. При необходимости: `adb install -r Shizuku-v*.apk`
+6. **Запустите Shizuku** — команда из приложения Shizuku или на ПК:
 
-## Уровень 3 — ADB с ПК один раз
+```bash
+adb shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh
+```
+
+Если путь не сработал на BYD:
+
+```bash
+adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
+```
+
+7. Откройте **Shizuku** на машине — статус **running**. Не отключайте отладку USB и режим разработчика.
+8. **VoltFlow Nav** → **Grant via Shizuku** → разрешите доступ Shizuku.
+9. Плитки: **Accessibility: OK** (и при возможности **PROJECT_MEDIA: OK**).
+10. **Restart screen capture** (снова после каждой перезагрузки).
+11. По желанию: настройки батареи без ограничений для VoltFlow.
+
+### После перезагрузки
+
+- **Shizuku** на Android 10 нужно запускать снова (шаг 6 с ПК).
+- Права VoltFlow (**WRITE_SECURE_SETTINGS**, accessibility) **сохраняются** до удаления приложения.
+- **Захват экрана** — снова в VoltFlow после каждой перезагрузки головного устройства.
+
+### Навигация
+
+- Не запускайте штатную навигацию **BYD AMap** вместе с Yandex.
+- **Яндекс Навигатор** должен быть **на экране** во время маршрута.
+
+---
+
+## Опционально: Accessibility в Настройках
+
+На DiLink 3.0 переключатель **заблокирован** (проверено на Yuan UP). Кнопка **Open accessibility settings** в приложении — для других прошивок.
+
+---
+
+## Альтернатива: ADB с ПК один раз
 
 ```bash
 adb connect <car-ip>:5555
 ./setup-car.sh /path/to/VoltFlowNav-v1.0.0.apk
 ```
 
-Или только grant:
+Только grant:
 
 ```bash
 adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 ```
 
-Далее на машине — захват экрана и батарея в приложении.
+Далее на машине — захват экрана и батарея в VoltFlow.
 
 ---
 
-## Spike: уведомления Yandex
-
-Проверка, есть ли данные маршрута в notification (как у OpenBYD):
+## Приложение: проверка уведомлений Yandex
 
 ```bash
-adb logcat -c
-# Запустите маршрут в Yandex, затем:
 adb shell dumpsys notification --noredact | grep -A30 ru.yandex.yandexnavi
 ```
 
-Нужны непустые `title` / `text` / `subText` у ongoing-уведомления. Если пусто — оставайтесь на Accessibility (текущий VoltFlow). См. [YANDEX_UI.ru.md](YANDEX_UI.ru.md).
+См. [YANDEX_UI.ru.md](YANDEX_UI.ru.md).

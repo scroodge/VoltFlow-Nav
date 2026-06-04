@@ -45,13 +45,15 @@
 
 1. Download APK from [Releases](https://github.com/scroodge/VoltFlow-Nav/releases) (`VoltFlowNav-*.apk`).
 2. Sideload on the head unit (file manager or `adb install -r VoltFlowNav.apk`).
-3. Open **VoltFlow Nav** and follow the in-app setup screen (three tiers — see [SETUP.en.md](SETUP.en.md)):
-   - **Tier 1:** tap **Open accessibility settings** and enable VoltFlow Nav (no PC).
-   - **Tier 2:** **Grant via Shizuku** if Settings blocks accessibility (Shizuku needs USB ADB once on Android 10).
-   - **Tier 3:** one-time PC — `./setup-car.sh` or `adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS`.
+3. **Shizuku setup** on the head unit (recommended for DiLink 3.0) — full guide: [SETUP.en.md](SETUP.en.md):
+   - Install [Shizuku](https://github.com/RikkaApps/Shizuku/releases) ([Play](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api) · [manual](https://shizuku.rikka.app/guide/setup/)).
+   - Start Shizuku once via USB ADB (Android 10), then in VoltFlow Nav tap **Grant via Shizuku**.
+   - Manual accessibility in Settings **does not work** on DiLink 3.0 (tested on Yuan UP).
 4. On the car: allow **screen capture** (in-app button; required after each reboot).
 5. Do **not** run BYD AMap navigation (it blocks third-party broadcasts).
 6. Start a Yandex route and keep Yandex **visible** on screen.
+
+Alternative without Shizuku: one-time PC [`setup-car.sh`](../setup-car.sh) or `adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS`.
 
 For later versions: enable **Check for updates on launch** in the app — it offers to download a newer APK from [GitHub Releases](https://github.com/scroodge/VoltFlow-Nav/releases) when available.
 

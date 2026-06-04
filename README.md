@@ -42,13 +42,15 @@
 
 1. Спампуйце APK з [Releases](https://github.com/scroodge/VoltFlow-Nav/releases) (`VoltFlowNav-*.apk`).
 2. Усталюйце на галавную прыладу (файлавы менеджар або `adb install -r VoltFlowNav.apk`).
-3. Адкрыйце **VoltFlow Nav** — экран наладкі ([SETUP.md](SETUP.md), [en](docs/SETUP.en.md), [ru](docs/SETUP.ru.md)):
-   - **Узровень 1:** **Open accessibility settings** → уключыце службу (без ПК).
-   - **Узровень 2:** **Grant via Shizuku**, калі Налады блакіруюць (на Android 10 Shizuku — адзін раз USB ADB).
-   - **Узровень 3:** ПК — `./setup-car.sh` або `adb shell pm grant ... WRITE_SECURE_SETTINGS`.
+3. **Shizuku** на галавной прыладзе (рэкамендуецца для DiLink 3.0) — [SETUP.md](SETUP.md), [en](docs/SETUP.en.md), [ru](docs/SETUP.ru.md):
+   - Усталюйце [Shizuku](https://github.com/RikkaApps/Shizuku/releases) ([Play](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api) · [інструкцыя](https://shizuku.rikka.app/guide/setup/)).
+   - Запусціце Shizuku адзін раз праз USB ADB (Android 10), у VoltFlow Nav — **Grant via Shizuku**.
+   - Accessibility у Наладах на DiLink 3.0 **не працуе** (праверана на Yuan UP).
 4. На аўтамабілі: **захоп экрана** (пасля кожнай перазагрузкі зноў).
 5. **Не** запускайце BYD AMap падчас Yandex.
 6. Маршрут у Yandex, Yandex **на экране**.
+
+Альтернатыва без Shizuku: `./setup-car.sh` або `adb shell pm grant ... WRITE_SECURE_SETTINGS` з ПК.
 
 Наступныя версіі: у дадатку ўключыце **Правяраць абнаўленні пры запуску** — прапануе спампаваць новы APK з [GitHub Releases](https://github.com/scroodge/VoltFlow-Nav/releases), калі ён новей усталяванага.
 

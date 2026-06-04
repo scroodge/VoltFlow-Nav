@@ -78,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         tvAdbCommand.text = SetupHelper.ADB_GRANT_CMD
         btnGrant.setOnClickListener { requestCapture() }
         findViewById<Button>(R.id.btnOpenAccessibility).setOnClickListener { openAccessibilitySettings() }
+        findViewById<Button>(R.id.btnOpenShizuku).setOnClickListener { openShizukuApp() }
         findViewById<Button>(R.id.btnShizukuGrant).setOnClickListener { onShizukuGrantClicked() }
         findViewById<Button>(R.id.btnCopyAdb).setOnClickListener { copyAdbCommand() }
         ShizukuSetupHelper.addPermissionListener(shizukuPermissionListener)
@@ -253,6 +254,11 @@ class MainActivity : AppCompatActivity() {
     private fun openAccessibilitySettings() {
         if (SetupHelper.openAccessibilitySettings(this)) return
         Toast.makeText(this, R.string.setup_a11y_open_failed, Toast.LENGTH_LONG).show()
+    }
+
+    private fun openShizukuApp() {
+        if (ShizukuSetupHelper.launchShizukuApp(this)) return
+        Toast.makeText(this, R.string.setup_shizuku_not_installed, Toast.LENGTH_LONG).show()
     }
 
     private fun onShizukuGrantClicked() {

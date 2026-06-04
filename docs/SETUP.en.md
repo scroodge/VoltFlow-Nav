@@ -1,51 +1,94 @@
-# VoltFlow Nav — setup tiers (DiLink 3.0 / Android 10)
+# VoltFlow Nav — setup (DiLink 3.0 / Android 10)
 
 **Language:** English · [Russian](SETUP.ru.md) · [Belarusian](../SETUP.md)
 
-Choose the first method that works on your head unit. The in-app setup screen lists the same order.
+On **BYD DiLink 3.0**, enabling VoltFlow Nav in system **Accessibility settings does not work** (toggle blocked). The path that works is **Shizuku** on the head unit, then **Grant via Shizuku** inside VoltFlow Nav.
 
-## Tier 1 — Accessibility in Settings (no PC)
+Full guide below. The in-app setup screen follows the same order.
 
-1. Install and open **VoltFlow Nav**.
-2. Tap **Open accessibility settings** and enable **VoltFlow Nav**.
-3. Return to the app; allow **screen capture** when prompted (again after each reboot).
-4. Open **battery** settings from the app if background kill is an issue.
+---
 
-**Verify on car (accessibility spike):**
+## Recommended: Shizuku (DiLink 3.0)
 
-- Details screen opens: `adb shell am start -a android.settings.ACCESSIBILITY_DETAILS_SETTINGS -e android.intent.extra.COMPONENT_NAME com.bridge.yandexbyd/com.bridge.yandexbyd.YandexA11yService`
-- After enabling, status tile shows **Accessibility: OK** and `adb shell settings get secure enabled_accessibility_services` contains `com.bridge.yandexbyd`.
+### Download Shizuku
 
-If DiLink blocks the toggle, use Tier 2 or 3.
+| Source | Link |
+|--------|------|
+| APK (sideload on head unit) | [GitHub Releases — RikkaApps/Shizuku](https://github.com/RikkaApps/Shizuku/releases) |
+| Google Play (if available on your device) | [Shizuku on Play Store](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api) |
+| Official user manual | [shizuku.rikka.app/guide/setup](https://shizuku.rikka.app/guide/setup/) |
+| Android 10: start via USB ADB | [Start by connecting to a computer](https://shizuku.rikka.app/guide/setup/#start-by-connecting-to-a-computer) |
 
-## Tier 2 — Shizuku on the head unit
+Package name: `moe.shizuku.privileged.api`
 
-1. Install [Shizuku](https://shizuku.rikka.app/) on the head unit.
-2. Start Shizuku (on **Android 10**, first start needs **USB ADB** once; see Shizuku’s guide).
-3. In VoltFlow Nav, tap **Grant via Shizuku** and allow Shizuku access for VoltFlow Nav.
+### Step-by-step (Android 10 head unit)
 
-This grants `WRITE_SECURE_SETTINGS`, enables accessibility, and allows `PROJECT_MEDIA` (same as [`setup-car.sh`](../setup-car.sh) core steps).
+1. Install **VoltFlow Nav** APK on the head unit ([Releases](https://github.com/scroodge/VoltFlow-Nav/releases)).
+2. Install **Shizuku** APK from GitHub or Play (see table above).
+3. On the head unit: enable **Developer options** and **USB debugging** (see BYD/DiLink forums for your model).
+4. Connect the car to a PC with ADB; run `adb devices` and accept **Allow USB debugging** on the screen (check **Always allow** if offered).
+5. Install Shizuku if you used the PC: `adb install -r Shizuku-v*.apk`
+6. **Start Shizuku** — copy the command from the Shizuku app, or run on the PC:
 
-## Tier 3 — One-time PC ADB
+```bash
+adb shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh
+```
+
+If that path fails on your BYD build, try:
+
+```bash
+adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
+```
+
+7. Open the **Shizuku** app on the head unit — status should show the service **running**. Keep **USB debugging** and **Developer options** enabled (Shizuku requirement).
+8. Open **VoltFlow Nav** → tap **Grant via Shizuku** → allow Shizuku access when prompted.
+9. Check status tiles: **Accessibility: OK** (and optionally **PROJECT_MEDIA: OK**).
+10. Tap **Restart screen capture** and confirm the system dialog (needed again after each reboot).
+11. Optional: **Open battery settings** and disable restrictions for VoltFlow Nav.
+
+### After reboot
+
+- **Shizuku** must be started again on Android 10 (repeat step 6 from a PC, or use Shizuku’s in-app instructions).
+- VoltFlow’s **WRITE_SECURE_SETTINGS** grant and accessibility enablement **stay** until you uninstall VoltFlow Nav.
+- **Screen capture** must be allowed again in VoltFlow after each head-unit reboot.
+
+### Navigation
+
+- Do **not** run BYD AMap navigation while using Yandex (it blocks third-party HUD updates).
+- Keep **Yandex Navigator visible** on screen during the route.
+
+---
+
+## Optional: system Accessibility settings
+
+On DiLink 3.0 the per-app accessibility toggle is **blocked** in Settings (verified on Yuan UP). The in-app **Open accessibility settings** button remains for other Android builds only.
+
+If it works on your device: enable **VoltFlow Nav**, return to the app, then allow screen capture.
+
+---
+
+## Alternative: one-time PC ADB
+
+Same result as Shizuku grant, without installing Shizuku on the car:
 
 ```bash
 adb connect <car-ip>:5555
 ./setup-car.sh /path/to/VoltFlowNav-v1.0.0.apk
 ```
 
-Or only the grant:
+Grant only:
 
 ```bash
 adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 ```
 
-Then open VoltFlow Nav on the car for screen capture and battery.
+Then open VoltFlow Nav on the head unit for screen capture and battery.
 
 ---
 
-## Spike: Yandex notifications (Tier 3 / OpenBYD path)
+## Appendix: Yandex notification spike
 
-Before building a notification-based bridge, check whether Yandex fills notification fields on your DiLink build during active navigation:
+For a possible future notification-based bridge (OpenBYD model), check whether Yandex fills notification fields on your DiLink build:
 
 ```bash
 adb logcat -c
@@ -53,4 +96,4 @@ adb logcat -c
 adb shell dumpsys notification --noredact | grep -A30 ru.yandex.yandexnavi
 ```
 
-Look for non-empty `android.title`, `android.text`, and `android.subText` on an **ongoing** notification. If they stay empty, stay on Accessibility + MediaProjection (current VoltFlow design). See [YANDEX_UI.en.md](YANDEX_UI.en.md) and [PATCH_NOTES.en.md](PATCH_NOTES.en.md) (OpenBYD whitelist).
+Non-empty `title` / `text` / `subText` on an **ongoing** notification would be required. If empty, keep Accessibility + MediaProjection. See [YANDEX_UI.en.md](YANDEX_UI.en.md).

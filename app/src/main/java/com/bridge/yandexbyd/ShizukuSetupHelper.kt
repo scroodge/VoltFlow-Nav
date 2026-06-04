@@ -85,5 +85,19 @@ object ShizukuSetupHelper {
             .version(USER_SERVICE_VERSION)
             .tag(USER_SERVICE_TAG)
 
-    private val SHIZUKU_PACKAGES = listOf("moe.shizuku.privileged.api")
+    const val SHIZUKU_PACKAGE = "moe.shizuku.privileged.api"
+
+    private val SHIZUKU_PACKAGES = listOf(SHIZUKU_PACKAGE)
+
+    fun launchShizukuApp(context: android.content.Context): Boolean {
+        val intent = context.packageManager.getLaunchIntentForPackage(SHIZUKU_PACKAGE)
+            ?: return false
+        intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+        return try {
+            context.startActivity(intent)
+            true
+        } catch (_: Exception) {
+            false
+        }
+    }
 }

@@ -5,62 +5,98 @@ import android.content.Intent
 import android.util.Log
 
 /**
- * Fires the AUTONAVI_STANDARD_BROADCAST_SEND intents that OpenBYD (com.sr.openbyd)
- * intercepts and forwards to the BYD instrument cluster.
+ * Sends AUTONAVI_STANDARD_BROADCAST_SEND in the exact format the BYD DiLink 3.0
+ * cluster relay (com.example.amapservice) consumes — reverse-engineered from
+ * AmapService.apk on a Yuan UP. See CLUSTER_PROTOCOL.md.
  *
- * Extra keys and status values reverse-engineered from OpenBYD v2.2 DEX.
+ * The relay only acts when BYD's own AMap (com.byd.automap) is NOT navigating,
+ * so we always identify as a third party (IS_BYD_MAP=false / absent).
  */
 object AmapBroadcastSender {
 
     private const val TAG = "YandexBYDBridge"
+    private const val ACTION = "AUTONAVI_STANDARD_BROADCAST_SEND"
 
-    private const val ACTION_UPDATE = "AUTONAVI_STANDARD_BROADCAST_SEND"
-    private const val ACTION_STOP   = "AUTONAVI_STANDARD_BROADCAST_STOP"
+    // KEY_TYPE values
+    private const val KEY_TYPE_GUIDE = 10001   // per-maneuver guidance info
+    private const val KEY_TYPE_STATE = 10019   // navigation state change (start/stop)
 
-    // Extra keys (discovered in OpenBYD DEX analysis)
-    private const val KEY_STATUS_INFO = "STATUS_INFORMATION"
-    private const val KEY_STATUS      = "status"
-    private const val KEY_ICON        = "icon"
-    private const val KEY_DISTANCE    = "distance"
-    private const val KEY_REMAIN_DIS  = "NEXT_SEG_REMAIN_DIS"
-    private const val KEY_ROAD_NAME   = "NEXT_ROAD_NAME"
-    private const val KEY_NEXT_ICON   = "NEXT_NEXT_TURN_ICON"
-    private const val KEY_NEXT_ROAD   = "NEXT_NEXT_ROAD_NAME"
+    // TYPE (naviState) — must be 0 or 1 for a guidance update to be accepted
+    private const val NAVI_STATE_GPS_NORMAL = 0
 
-    // Status values (discovered in OpenBYD DEX analysis)
-    private const val NAVI_ACTIVE  = "NAVI_STATUS_ACTIVE"
-    private const val NAVI_STOPPED = "NAVI_STATUS_STOPPED"
-    private const val NAVI_CLOSE   = "NAVI_CLOSE"
+    // EXTRA_STATE for the stop broadcast (9 = stopped, also accepts 12)
+    private const val STATE_STOPPED = 9
 
+    /**
+     * Push one maneuver to the cluster.
+     *
+     * @param iconId        NEW_ICON — AMap turn id (see [AmapIconMapper])
+     * @param segRemainDist metres to this maneuver
+     * @param roadName      road after the maneuver
+     * @param routeRemainDist metres left to destination, or -1 if unknown
+     * @param routeRemainTime seconds left to destination, or -1 if unknown
+     * @param etaText       arrival clock time text, or null
+     */
     fun sendNaviUpdate(
         context: Context,
-        turnKind: String,
-        distanceM: Int,
+        iconId: Int,
+        segRemainDist: Int,
         roadName: String,
-        nextTurnKind: String = "TURN_KIND_STRAIGHT",
-        nextRoadName: String = ""
+        routeRemainDist: Int = -1,
+        routeRemainTime: Int = -1,
+        etaText: String? = null,
     ) {
-        val intent = Intent(ACTION_UPDATE).apply {
-            putExtra(KEY_STATUS_INFO, NAVI_ACTIVE)
-            putExtra(KEY_STATUS,      NAVI_ACTIVE)
-            putExtra(KEY_ICON,        turnKind)
-            putExtra(KEY_DISTANCE,    distanceM)
-            putExtra(KEY_REMAIN_DIS,  distanceM)
-            putExtra(KEY_ROAD_NAME,   roadName)
-            putExtra(KEY_NEXT_ICON,   nextTurnKind)
-            putExtra(KEY_NEXT_ROAD,   nextRoadName)
+        val intent = Intent(ACTION).apply {
+            putExtra("KEY_TYPE", KEY_TYPE_GUIDE)
+            putExtra("TYPE", NAVI_STATE_GPS_NORMAL)
+            putExtra("NEW_ICON", iconId)
+            putExtra("SEG_REMAIN_DIS", segRemainDist)
+            putExtra("NEXT_ROAD_NAME", roadName)
+            if (routeRemainDist >= 0) putExtra("ROUTE_REMAIN_DIS", routeRemainDist)
+            if (routeRemainTime >= 0) putExtra("ROUTE_REMAIN_TIME", routeRemainTime)
+            // The cluster's arrival-clock slot is narrow and truncates "12:27" to ":2";
+            // "25 min" to destination is already shown, so blank this slot ( a space,
+            // because the relay turns null/empty into "-1").
+            putExtra("ETA_TEXT", " ")
+            // Pre-formatted strings — without these the cluster prints "-1 -1 -1".
+            putExtra("SEG_REMAIN_DIS_AUTO", fmtDist(segRemainDist))
+            putExtra("ROUTE_REMAIN_DIS_AUTO", fmtDist(routeRemainDist))
+            putExtra("ROUTE_REMAIN_TIME_AUTO", fmtTime(routeRemainTime))
+            putExtra("IS_BYD_MAP", false)
         }
         context.sendBroadcast(intent)
-        Log.d(TAG, "Broadcast: $turnKind | $distanceM m | $roadName")
+        Log.d(TAG, "→ cluster: icon=$iconId seg=${segRemainDist}m road='$roadName' " +
+                "routeDist=$routeRemainDist routeTime=$routeRemainTime")
     }
 
-    fun sendNaviStop(context: Context) {
-        Intent(ACTION_UPDATE).also {
-            it.putExtra(KEY_STATUS_INFO, NAVI_STOPPED)
-            it.putExtra(KEY_STATUS,      NAVI_CLOSE)
-            context.sendBroadcast(it)
+    /** Distance as a display string. Blank (a space) when unknown, so the cluster
+     *  shows nothing instead of "-1". */
+    private fun fmtDist(metres: Int): String = when {
+        metres < 0 -> " "
+        metres >= 1000 -> String.format("%.1f km", metres / 1000f)
+        else -> "$metres m"
+    }
+
+    /** Duration (seconds) as a display string; blank when unknown. */
+    private fun fmtTime(seconds: Int): String {
+        if (seconds < 0) return " "
+        val h = seconds / 3600
+        val m = (seconds % 3600) / 60
+        return when {
+            h > 0 -> "${h}h ${m}m"
+            m > 0 -> "$m min"
+            else -> "<1 min"
         }
-        context.sendBroadcast(Intent(ACTION_STOP))
-        Log.d(TAG, "Stop broadcast sent")
+    }
+
+    /** Clear the cluster when navigation ends. */
+    fun sendNaviStop(context: Context) {
+        val intent = Intent(ACTION).apply {
+            putExtra("KEY_TYPE", KEY_TYPE_STATE)
+            putExtra("EXTRA_STATE", STATE_STOPPED)
+            putExtra("IS_BYD_MAP", false)
+        }
+        context.sendBroadcast(intent)
+        Log.d(TAG, "→ cluster: STOP")
     }
 }

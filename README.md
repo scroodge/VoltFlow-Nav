@@ -1,77 +1,82 @@
 # Yandex BYD Bridge
 
-A small Android app that bridges **Yandex Navigator** turn-by-turn directions to a
-**BYD instrument cluster** (HUD / dashboard) running BYD's DiLink system.
+Shows **Yandex Navigator** turn-by-turn guidance on the **instrument cluster** of a
+**BYD with DiLink 3.0** (tested on a Yuan UP, China, Android 10, `ro.vehicle.type=Di3.0_3.5UI`).
 
-It works by listening to the navigation notification Yandex posts while guiding you,
-extracting the next manoeuvre and distance, and re-broadcasting them in the
-`AUTONAVI_STANDARD_BROADCAST_SEND` format that [OpenBYD](https://github.com/) (`com.sr.openbyd`)
-already understands and forwards to the cluster.
+No OpenBYD, no root. A normal app reads Yandex's guidance and feeds the cluster through
+BYD's stock AMap broadcast bridge (`com.example.amapservice`).
 
 ```
-Yandex Navigator ──notification──▶ YandexNaviListenerService
-                                          │  parse turn + distance
-                                          ▼
-                                   AmapBroadcastSender
-                                          │  AUTONAVI_STANDARD_BROADCAST_SEND
-                                          ▼
-                                   OpenBYD ──▶ BYD cluster
+Yandex Navigator
+   │  accessibility  → distance, next street, ETA, route remaining
+   │  screen capture → maneuver arrow  → left / right / straight
+   ▼
+YandexBYDBridge ──AUTONAVI_STANDARD_BROADCAST_SEND──▶ com.example.amapservice ──CAN──▶ cluster
 ```
 
-- Package: `com.bridge.yandexbyd`
-- Language: Kotlin
-- Min SDK: API 26 (Android 8.0) · Target/Compile SDK: 34
+Why this design (see the decompile docs for the full story):
+- Yandex exposes **nothing** via its notification or MediaSession, so guidance is read from
+  the on-screen turn panel with an **AccessibilityService** ([YANDEX_UI.md](YANDEX_UI.md)).
+- The turn **direction** is an unlabeled image, so it's captured via **MediaProjection** and
+  classified geometrically ([ManeuverClassifier.kt](app/src/main/java/com/bridge/yandexbyd/ManeuverClassifier.kt)).
+- The cluster is driven by the stock AMap broadcast contract ([CLUSTER_PROTOCOL.md](CLUSTER_PROTOCOL.md)).
+- The cluster font has no Cyrillic, so road names are transliterated to Latin
+  ([Translit.kt](app/src/main/java/com/bridge/yandexbyd/Translit.kt)).
 
-## Modules
+## Components
 
 | File | Role |
 |------|------|
-| `MainActivity.kt` | UI to check / grant Notification Listener access. |
-| `YandexNaviListenerService.kt` | Captures Yandex notifications, parses title/text, resolves the turn kind. |
-| `TurnKindMapper.kt` | Maps instructions to `TURN_KIND_*` via keyword matching (RU/EN/TR) with an icon-bitmap fallback. |
-| `AmapBroadcastSender.kt` | Emits the AutoNavi broadcast intents OpenBYD intercepts. |
-| `BootReceiver.kt` | Hook for boot-completed (service itself is OS-managed). |
+| `YandexA11yService.kt` | Reads Yandex's turn panel by resource-id; orchestrates each update. |
+| `CaptureService.kt` | MediaProjection foreground service; crops the arrow region on demand. |
+| `ManeuverClassifier.kt` | Arrow bitmap → NEW_ICON (left/right/straight; calibrated on real crops). |
+| `AmapBroadcastSender.kt` | Emits the exact `AUTONAVI_STANDARD_BROADCAST_SEND` the cluster consumes. |
+| `Translit.kt` | Cyrillic → Latin so names render on the cluster. |
+| `MainActivity.kt` | Status + "Start Screen Capture" button (projection grant). |
 
 ## Build
 
-The Android SDK path is set in `local.properties` (not committed). Then:
-
 ```sh
 ./gradlew assembleDebug
+# -> app/build/outputs/apk/debug/app-debug.apk  (copy to ~/Downloads/YandexBYDBridge.apk)
 ```
 
-The APK lands at `app/build/outputs/apk/debug/app-debug.apk`.
+## Install & set up on the car
 
-Or open the folder in Android Studio and **Build → Build APK(s)**.
+```sh
+adb connect <car-ip>:5555
+./setup-car.sh                 # installs + grants accessibility, capture, background exemption
+```
+Then on the car: open the app, tap **Start Screen Capture** once, make sure BYD AMap isn't
+navigating, start a Yandex route with Yandex visible on screen.
 
-## Install on the car
+### Grants explained (all via ADB — the car blocks the Settings screens)
+| What | Command | When |
+|------|---------|------|
+| Accessibility | `settings put secure enabled_accessibility_services …` | **every reinstall** (Android disables it on update) |
+| Screen capture | `appops set … PROJECT_MEDIA allow` + tap "Start Screen Capture" | appop once; tap **every reboot** (projection token doesn't persist) |
+| Stay alive | `dumpsys deviceidle whitelist +…` + `RUN_ANY_IN_BACKGROUND` | once (survives reboot) |
 
-1. Enable ADB / developer mode on the BYD DiLink head unit
-   (see [github.com/ahmada3mar/BYD](https://github.com/ahmada3mar/BYD)).
-2. Join the car's Wi-Fi hotspot, then:
-   ```sh
-   adb connect <car-ip>:5555
-   adb install -r app/build/outputs/apk/debug/app-debug.apk
-   ```
-3. Open **Yandex BYD Bridge** on the car screen → **Grant Access** → enable it
-   in the Notification Listener list.
-
-## Test & tune
-
-Start Yandex Navigator, set a destination, and watch the cluster. Stream logs with:
+## Watch / debug
 
 ```sh
 adb logcat -s YandexBYDBridge
 ```
+- `PANEL …` — what was read from Yandex
+- `arrow: n=… topL=… topR=… -> icon=…` — arrow classification (2=left, 3=right, 9=straight)
+- `→ cluster: …` — what was sent
 
-> **Tuning note:** `TurnKindMapper.RULES` may need adjustment after the first test —
-> logcat shows the exact title/text Yandex sends in your language; add or tweak the
-> keywords accordingly. The bitmap fallback only distinguishes left/right/straight.
+## Status & known limitations
 
-## Notes on the implementation vs. the original spec
+Working: distance (counts down), next street (transliterated), ETA, route remaining, and
+left / right / straight arrows.
 
-- The `AndroidManifest.xml` omits the legacy `package="…"` attribute; with Android
-  Gradle Plugin 8.x the package is taken from `namespace` in `app/build.gradle`
-  (keeping the attribute is now a build error).
-- A vector adaptive launcher icon is included (`@mipmap/ic_launcher`) since the
-  manifest references it; minSdk 26 means no legacy PNG densities are needed.
+To refine as samples are collected (currently fall through to nearest of left/right/straight):
+**slight/sharp turns, U-turn, roundabout exits**. The bridge saves each analyzed arrow to
+`/sdcard/Android/data/com.bridge.yandexbyd/files/arrows/` for offline calibration of
+`ManeuverClassifier` against the AMap NEW_ICON table in [CLUSTER_PROTOCOL.md](CLUSTER_PROTOCOL.md).
+
+Operational notes:
+- Yandex must be **visible** on screen while navigating (accessibility + capture read the UI).
+- BYD's own AMap must **not** be navigating (it has priority and suppresses third parties).
+- Re-tap **Start Screen Capture** after each head-unit reboot.

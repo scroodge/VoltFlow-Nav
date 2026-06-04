@@ -1,32 +1,32 @@
-# VoltFlow Nav — marketing launch checklist
+# VoltFlow Nav — чэкліст маркетынгавага запуску
 
-**Мова:** [README (be)](../README.md) · [EN](README.en.md) · [RU](README.ru.md)
+**Мова:** Беларуская · [English](MARKETING_LAUNCH.en.md) · [Русский](MARKETING_LAUNCH.ru.md)
 
-## Positioning
+## Пазіцыянаванне
 
-- **Lead:** Yandex Navigator on BYD HUD today (arrows + street + ETA).
-- **Honest:** drive panel = experimental, not in headline.
-- **Ecosystem:** sibling of [VoltFlow](https://github.com/scroodge/VoltFlow) and VoltFlow Mate.
+- **Галоўнае:** Яндэкс Навігатар на прыборцы BYD сёння (стрэлкі + вуліца + ETA).
+- **Сумленна:** панэль кіравання = эксперымент, не ў загалоўку.
+- **Экасістэма:** сусед [VoltFlow](https://github.com/scroodge/VoltFlow) і VoltFlow Mate.
 
-## Week 1
+## Тыдзень 1
 
-- [ ] Push to `scroodge/VoltFlow-Nav`, tag `v1.0.0`, verify Release APK
-- [ ] Replace `docs/assets/readme/hud-demo.jpg` with real cluster photo
-- [ ] Add VoltFlow PWA / knowledge-base link to this repo (PR to VoltFlow README)
+- [ ] Push у `scroodge/VoltFlow-Nav`, тэг `v1.0.0`, праверка Release APK
+- [ ] Замяніць `docs/assets/readme/hud-demo.jpg` рэальным фота прыборкі
+- [ ] Спасылка на VoltFlow PWA / базу ведаў у гэты рэпазіторый (PR у README VoltFlow)
 - [ ] GitHub Topics: `byd`, `yandex-navigator`, `android`, `ev`, `instrument-cluster`, `dilink`
 
-## Week 2
+## Тыдзень 2
 
-- [ ] BYD Telegram groups (Belarusian post + link to README)
-- [ ] Russian mirror post for CIS groups
-- [ ] Drive2 / forum post with compatibility table from issues
-- [ ] 60s demo video: HUD sync with Yandex (optional 5s drive panel, labeled experimental)
+- [ ] BYD Telegram-групы (пост па-беларуску + спасылка на README)
+- [ ] Рускамоўны пост для СНД-груп
+- [ ] Drive2 / форум з табліцай сумяшчальнасці з issues
+- [ ] 60 с відэа: сінхронізацыя HUD з Yandex (опц. 5 с панэль кіравання, «эксперымент»)
 
-## Donations
+## Доны
 
-Single funnel: [buymeacoffee.com/scroodge](https://buymeacoffee.com/scroodge) — same as VoltFlow. No paywalled features.
+Адзіны канал: [buymeacoffee.com/scroodge](https://buymeacoffee.com/scroodge) — як у VoltFlow. Без платных функцый.
 
-## GitHub About (EN)
+## GitHub About (EN для пошуку)
 
 Open-source bridge: Yandex Navigator on BYD DiLink 3.0 HUD. Docs in Belarusian. Part of VoltFlow.
 

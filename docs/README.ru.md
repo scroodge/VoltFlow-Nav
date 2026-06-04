@@ -60,11 +60,21 @@ adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 6. **Не** запускайте штатную навигацию BYD AMap.
 7. Маршрут в Yandex — Yandex **на экране**.
 
+Следующие версии: включите **Проверять обновления при запуске** — приложение предложит скачать новый APK с [GitHub Releases](https://github.com/scroodge/VoltFlow-Nav/releases), если он новее установленного.
+
 ## Как это работает
 
 <img src="assets/readme/flow-diagram.png" width="800" alt="Data flow" />
 
-См. [CLUSTER_PROTOCOL.md](../CLUSTER_PROTOCOL.md), [YANDEX_UI.md](../YANDEX_UI.md).
+```
+Яндекс Навигатор
+  ├─ AccessibilityService → расстояние, улица, ETA
+  └─ MediaProjection → стрелка манёвра
+        ↓
+VoltFlow Nav → AUTONAVI_STANDARD_BROADCAST_SEND → com.example.amapservice → HUD
+```
+
+См. [CLUSTER_PROTOCOL.ru.md](CLUSTER_PROTOCOL.ru.md), [YANDEX_UI.ru.md](YANDEX_UI.ru.md).
 
 ## Ограничения
 
@@ -97,6 +107,16 @@ adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 ./gradlew assembleDebug
 adb logcat -s VoltFlowNav
 ```
+
+## Документация
+
+| Тема | Беларуская | English | Русский |
+|------|------------|---------|---------|
+| Участие | [be](../CONTRIBUTING.md) | [en](CONTRIBUTING.en.md) | **ru** |
+| Протокол HUD | [be](../CLUSTER_PROTOCOL.md) | [en](CLUSTER_PROTOCOL.en.md) | [ru](CLUSTER_PROTOCOL.ru.md) |
+| UI Yandex | [be](../YANDEX_UI.md) | [en](YANDEX_UI.en.md) | [ru](YANDEX_UI.ru.md) |
+| Релиз | [be](PUBLISH.md) | [en](PUBLISH.en.md) | [ru](PUBLISH.ru.md) |
+| Маркетинг | [be](MARKETING_LAUNCH.md) | [en](MARKETING_LAUNCH.en.md) | [ru](MARKETING_LAUNCH.ru.md) |
 
 ## Участие
 

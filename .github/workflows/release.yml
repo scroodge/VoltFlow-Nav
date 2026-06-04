@@ -23,15 +23,23 @@ jobs:
       - name: Copy release APK
         run: |
           mkdir -p dist
-          cp app/build/outputs/apk/release/VoltFlowNav-*-release.apk dist/VoltFlowNav-${{ github.ref_name }}.apk
+          cp app/build/outputs/apk/release/VoltFlowNav-v*.apk dist/VoltFlowNav-${{ github.ref_name }}.apk
+      - name: Extract changelog for release body
+        id: changelog
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          awk -v ver="$VERSION" '
+            $0 ~ "^## \\[" ver "\\]" { found=1; next }
+            found && /^## \[/ { exit }
+            found { print }
+          ' CHANGELOG.md > dist/release-notes.md
+          if [ ! -s dist/release-notes.md ]; then
+            echo "No CHANGELOG section for ${VERSION}; using template." >&2
+            echo "## VoltFlow Nav ${GITHUB_REF_NAME}" > dist/release-notes.md
+          fi
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           files: dist/VoltFlowNav-*.apk
-          generate_release_notes: true
-          body: |
-            ## VoltFlow Nav ${{ github.ref_name }}
-
-            Сцягніце APK і ўсталюйце на BYD DiLink 3.0. Наладка — у дадатку + аднаразовы ADB grant (глядзі README).
-
-            **English:** Download APK, sideload on head unit, follow in-app setup. One-time `adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS`.
+          generate_release_notes: false
+          body_path: dist/release-notes.md

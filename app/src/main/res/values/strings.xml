@@ -20,4 +20,21 @@
     <string name="setup_adb_copied">ADB command copied</string>
     <string name="setup_hint_amap">Keep BYD AMap navigation off while using Yandex.</string>
     <string name="setup_hint_yandex">Yandex must stay visible on screen during navigation.</string>
+
+    <string name="update_section_title">Updates</string>
+    <string name="update_version_label">Version v%1$s</string>
+    <string name="update_auto_check">Check for updates on launch</string>
+    <string name="update_auto_check_hint">Checks GitHub Releases when you open the app</string>
+    <string name="update_check_now">Check for updates now</string>
+    <string name="update_dialog_title">Updates</string>
+    <string name="update_current_version">Installed: v%1$s</string>
+    <string name="update_checking">Checking GitHub Releases…</string>
+    <string name="update_up_to_date">You have the latest version.</string>
+    <string name="update_available">Update available: v%1$s</string>
+    <string name="update_whats_new">What\'s new:</string>
+    <string name="update_downloading">Downloading v%1$s\n%2$s</string>
+    <string name="update_error">Error: %1$s</string>
+    <string name="update_download_install">Download and install</string>
+    <string name="update_retry">Try again</string>
+    <string name="update_dialog_close">Close</string>
 </resources>

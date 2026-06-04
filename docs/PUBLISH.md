@@ -1,32 +1,77 @@
-# Publishing to GitHub
+# Публікацыя на GitHub
 
-## Create repository
+**Мова:** Беларуская · [English](PUBLISH.en.md) · [Русский](PUBLISH.ru.md)
+
+## Стварэнне рэпазіторыя
 
 ```bash
 gh repo create scroodge/VoltFlow-Nav --public --source=. --remote=origin --description "Yandex Navigator on BYD DiLink 3.0 HUD. Part of VoltFlow."
 ```
 
-Or create **VoltFlow-Nav** on GitHub manually, then:
+Або стварыце **VoltFlow-Nav** на GitHub уручную, потым:
 
 ```bash
 git remote add origin https://github.com/scroodge/VoltFlow-Nav.git
 git push -u origin main
 ```
 
-## Release signing (local)
+## Падпіс рэлізу (лакальна)
 
-1. Create keystore (once): `voltflow-nav-release.keystore` in project root.
-2. Copy [`local.properties.example`](../local.properties.example) → `local.properties` and fill signing keys (file is gitignored).
-3. If the password contains `#`, escape it as `\#` in `local.properties`.
+1. Стварыце keystore (адзін раз): `voltflow-nav-release.keystore` у карані праекта.
+2. Скапіруйце [`local.properties.example`](../local.properties.example) → `local.properties` і ўкажыце ключы (файл у `.gitignore`).
+3. Калі пароль змяшчае `#`, экраніруйце як `\#` у `local.properties`.
+
+## Рэліз (changelog → версія → зборка → тэг)
+
+Той жа паток, што ў [BYDMate-own](https://github.com/scroodge/BYDMate-own):
+
+1. Згенеруйце changelog з git-камітаў (рэкамендуем Conventional Commits):
 
 ```bash
-./gradlew assembleRelease
-# Signed APK: app/build/outputs/apk/release/VoltFlowNav-1.0.0-release.apk
+./gradlew releaseChangelog
 ```
 
-CI builds stay unsigned unless you add keystore secrets to GitHub Actions.
+Прагляд без змены файлаў:
 
-## First release
+```bash
+./gradlew releaseChangelog -PdryRun=true
+```
+
+Версія ўручную:
+
+```bash
+./gradlew releaseChangelog -PreleaseVersion=1.0.1
+```
+
+2. Праверце і пры неабходнасці адрэдагуйце [`CHANGELOG.md`](../CHANGELOG.md) (кананічны файл — англійская, для збіркі).
+
+3. **`versionName`** і **`versionCode`** у [`app/build.gradle`](../app/build.gradle) павінны супадаць з апошнім раздзелам у `CHANGELOG.md` (напр. `## [1.0.1] - 2026-06-05`).
+
+4. Зборка release APK (`verifyReleaseVersion` упадзе, калі версіі не супадаюць):
+
+```bash
+./gradlew clean assembleRelease
+# Выхад: app/build/outputs/apk/release/VoltFlowNav-v1.0.0.apk
+```
+
+5. Commit, тэг, push:
+
+```bash
+git add CHANGELOG.md app/build.gradle
+git commit -m "chore(release): v1.0.1"
+git tag v1.0.1
+git push origin main v1.0.1
+```
+
+6. GitHub Actions ([release.yml](../.github/workflows/release.yml)) далучае `VoltFlowNav-v1.0.1.apk` да Release.
+
+Убудаваная праверка абнаўленняў: `https://api.github.com/repos/scroodge/VoltFlow-Nav/releases/latest`, усталёўка першага `.apk` asset.
+
+CI-зборкі без падпісу, пакуль не дадасце секреты keystore ў GitHub Actions.
+
+## Першы рэліз
+
+У `CHANGELOG.md` павінен быць датаваны раздзел з `versionName`, потым:
 
 ```bash
 ./gradlew assembleRelease
@@ -34,11 +79,9 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
-GitHub Actions ([release.yml](../.github/workflows/release.yml)) attaches `VoltFlowNav-v1.0.0.apk` to the Release.
-
-## Verify before push
+## Перад push
 
 ```bash
-git ls-files | rg 'arrows/|openbyd-patch|ui\.xml|\.apk'   # should be empty
+git ls-files | rg 'arrows/|openbyd-patch|ui\.xml|\.apk'   # павінна быць пуста
 ./gradlew assembleDebug
 ```

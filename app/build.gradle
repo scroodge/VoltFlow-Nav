@@ -51,12 +51,57 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions { jvmTarget = '1.8' }
-    buildFeatures { viewBinding true }
+    buildFeatures {
+        viewBinding true
+        buildConfig true
+    }
+    testOptions {
+        unitTests.includeAndroidResources = true
+    }
 }
 
 android.applicationVariants.configureEach { variant ->
     variant.outputs.configureEach { output ->
-        output.outputFileName = "VoltFlowNav-${variant.versionName}-${variant.buildType.name}.apk"
+        output.outputFileName = "VoltFlowNav-v${variant.versionName}.apk"
+    }
+}
+
+def parseChangelogReleaseVersion = {
+    def changelog = rootProject.file('CHANGELOG.md')
+    if (!changelog.exists()) {
+        throw new GradleException('CHANGELOG.md not found at project root.')
+    }
+    def text = changelog.getText('UTF-8')
+    def matcher = (text =~ /(?m)^## \[(\d+\.\d+\.\d+[^\]]*)\] - \d{4}-\d{2}-\d{2}/)
+    if (!matcher.find()) {
+        throw new GradleException(
+            'CHANGELOG.md must contain a dated release section like ## [1.0.0] - 2026-06-04'
+        )
+    }
+    return matcher.group(1)
+}
+
+tasks.register('verifyReleaseVersion') {
+    group = 'release'
+    description = 'Ensure app versionName matches the latest dated CHANGELOG release.'
+    onlyIf {
+        gradle.startParameter.taskNames.any { it.contains('assembleRelease') }
+    }
+    doLast {
+        def changelogVersion = parseChangelogReleaseVersion()
+        def appVersion = android.defaultConfig.versionName
+        if (changelogVersion != appVersion) {
+            throw new GradleException(
+                "versionName is '${appVersion}' but latest CHANGELOG release is '${changelogVersion}'. " +
+                'Run ./gradlew releaseChangelog, edit CHANGELOG.md, then set versionName/versionCode in app/build.gradle.'
+            )
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.named('assembleRelease').configure {
+        dependsOn verifyReleaseVersion
     }
 }
 
@@ -65,4 +110,11 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.robolectric:robolectric:4.14.1'
+    testImplementation 'androidx.test:core:1.5.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3'
 }

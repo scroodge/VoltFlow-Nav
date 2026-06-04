@@ -60,11 +60,21 @@ adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 6. Do **not** run BYD AMap navigation (it blocks third-party broadcasts).
 7. Start a Yandex route and keep Yandex **visible** on screen.
 
+For later versions: enable **Check for updates on launch** in the app — it offers to download a newer APK from [GitHub Releases](https://github.com/scroodge/VoltFlow-Nav/releases) when available.
+
 ## How it works
 
 <img src="assets/readme/flow-diagram.png" width="800" alt="Data flow" />
 
-See [CLUSTER_PROTOCOL.md](../CLUSTER_PROTOCOL.md) and [YANDEX_UI.md](../YANDEX_UI.md).
+```
+Yandex Navigator
+  ├─ AccessibilityService → distance, street, ETA
+  └─ MediaProjection → maneuver arrow
+        ↓
+VoltFlow Nav → AUTONAVI_STANDARD_BROADCAST_SEND → com.example.amapservice → HUD
+```
+
+See [CLUSTER_PROTOCOL.en.md](CLUSTER_PROTOCOL.en.md) and [YANDEX_UI.en.md](YANDEX_UI.en.md).
 
 ## Limitations
 
@@ -97,6 +107,16 @@ Free and **MIT**. Optional donations help BYD hardware testing and the VoltFlow 
 ./gradlew assembleDebug
 adb logcat -s VoltFlowNav
 ```
+
+## Documentation
+
+| Topic | Belarusian | English | Russian |
+|-------|------------|---------|---------|
+| Contributing | [be](../CONTRIBUTING.md) | **en** | [ru](CONTRIBUTING.ru.md) |
+| HUD protocol | [be](../CLUSTER_PROTOCOL.md) | [en](CLUSTER_PROTOCOL.en.md) | [ru](CLUSTER_PROTOCOL.ru.md) |
+| Yandex UI | [be](../YANDEX_UI.md) | [en](YANDEX_UI.en.md) | [ru](YANDEX_UI.ru.md) |
+| Release | [be](PUBLISH.md) | [en](PUBLISH.en.md) | [ru](PUBLISH.ru.md) |
+| Marketing | [be](MARKETING_LAUNCH.md) | [en](MARKETING_LAUNCH.en.md) | [ru](MARKETING_LAUNCH.ru.md) |
 
 ## Contributing
 

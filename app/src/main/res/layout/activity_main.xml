@@ -38,6 +38,76 @@
             android:textSize="13sp" />
 
         <LinearLayout
+            android:id="@+id/cardAccessibility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@color/vf_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_a11y_title"
+                android:textColor="@color/vf_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/setup_a11y_body"
+                android:textColor="@color/vf_text_muted"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnOpenAccessibility"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/vf_primary"
+                android:text="@string/setup_btn_open_a11y"
+                android:textColor="@color/vf_background" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cardShizuku"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:background="@color/vf_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/setup_shizuku_title"
+                android:textColor="@color/vf_text"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/setup_shizuku_body"
+                android:textColor="@color/vf_text_muted"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnShizukuGrant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/vf_primary"
+                android:text="@string/setup_btn_shizuku_grant"
+                android:textColor="@color/vf_background" />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/cardAdb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

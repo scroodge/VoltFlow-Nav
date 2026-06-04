@@ -15,9 +15,21 @@
     <string name="setup_btn_capture">Restart screen capture</string>
     <string name="setup_btn_battery">Open battery settings</string>
     <string name="setup_btn_copy_adb">Copy ADB command</string>
-    <string name="setup_adb_title">One-time setup from a PC</string>
-    <string name="setup_adb_body">DiLink blocks enabling accessibility in Settings. Connect USB/Wi‑Fi ADB once, then open the app on the car.</string>
+    <string name="setup_a11y_title">Enable accessibility (try first)</string>
+    <string name="setup_a11y_body">Turn on VoltFlow Nav in system accessibility. Required to read Yandex turn data. Return here after enabling the switch.</string>
+    <string name="setup_btn_open_a11y">Open accessibility settings</string>
+    <string name="setup_a11y_open_failed">Could not open accessibility settings</string>
+    <string name="setup_adb_title">Fallback: one-time PC setup</string>
+    <string name="setup_adb_body">If Settings blocks accessibility on DiLink, grant WRITE_SECURE_SETTINGS once from a PC (or use Shizuku below). Then reopen this app.</string>
     <string name="setup_adb_copied">ADB command copied</string>
+    <string name="setup_shizuku_title">Fallback: Shizuku on the head unit</string>
+    <string name="setup_shizuku_body">Install Shizuku, start it (USB ADB once on Android 10), then tap Grant. Optional: auto-enables accessibility and PROJECT_MEDIA.</string>
+    <string name="setup_btn_shizuku_grant">Grant via Shizuku</string>
+    <string name="setup_shizuku_not_running">Shizuku is not running. Open the Shizuku app and start the service.</string>
+    <string name="setup_shizuku_permission_denied">Allow Shizuku access for VoltFlow Nav, then try again.</string>
+    <string name="setup_shizuku_grant_ok">Permissions granted via Shizuku</string>
+    <string name="setup_shizuku_grant_failed">Shizuku grant failed. Try PC ADB or manual accessibility.</string>
+    <string name="setup_shizuku_working">Granting via Shizuku…</string>
     <string name="setup_hint_amap">Keep BYD AMap navigation off while using Yandex.</string>
     <string name="setup_hint_yandex">Yandex must stay visible on screen during navigation.</string>
 

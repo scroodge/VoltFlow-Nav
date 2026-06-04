@@ -45,22 +45,13 @@
 
 1. Download APK from [Releases](https://github.com/scroodge/VoltFlow-Nav/releases) (`VoltFlowNav-*.apk`).
 2. Sideload on the head unit (file manager or `adb install -r VoltFlowNav.apk`).
-3. Open **VoltFlow Nav** and follow the in-app setup screen.
-4. Once from a PC over ADB:
-
-<details>
-<summary>ADB: grant WRITE_SECURE_SETTINGS</summary>
-
-```bash
-adb connect <car-ip>:5555
-adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
-```
-
-</details>
-
-5. On the car: allow **screen capture** (in-app button; required after each reboot).
-6. Do **not** run BYD AMap navigation (it blocks third-party broadcasts).
-7. Start a Yandex route and keep Yandex **visible** on screen.
+3. Open **VoltFlow Nav** and follow the in-app setup screen (three tiers — see [SETUP.en.md](SETUP.en.md)):
+   - **Tier 1:** tap **Open accessibility settings** and enable VoltFlow Nav (no PC).
+   - **Tier 2:** **Grant via Shizuku** if Settings blocks accessibility (Shizuku needs USB ADB once on Android 10).
+   - **Tier 3:** one-time PC — `./setup-car.sh` or `adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS`.
+4. On the car: allow **screen capture** (in-app button; required after each reboot).
+5. Do **not** run BYD AMap navigation (it blocks third-party broadcasts).
+6. Start a Yandex route and keep Yandex **visible** on screen.
 
 For later versions: enable **Check for updates on launch** in the app — it offers to download a newer APK from [GitHub Releases](https://github.com/scroodge/VoltFlow-Nav/releases) when available.
 
@@ -82,6 +73,7 @@ See [CLUSTER_PROTOCOL.en.md](CLUSTER_PROTOCOL.en.md) and [YANDEX_UI.en.md](YANDE
 
 | Topic | Belarusian | English | Russian |
 |-------|------------|---------|---------|
+| Setup (3 tiers) | [be](../SETUP.md) | [en](SETUP.en.md) | [ru](SETUP.ru.md) |
 | Contributing | [be](../CONTRIBUTING.md) | [en](CONTRIBUTING.en.md) | [ru](CONTRIBUTING.ru.md) |
 | HUD protocol | [be](../CLUSTER_PROTOCOL.md) | [en](CLUSTER_PROTOCOL.en.md) | [ru](CLUSTER_PROTOCOL.ru.md) |
 | Yandex UI | [be](../YANDEX_UI.md) | [en](YANDEX_UI.en.md) | [ru](YANDEX_UI.ru.md) |

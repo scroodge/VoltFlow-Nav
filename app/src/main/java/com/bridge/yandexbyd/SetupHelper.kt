@@ -1,6 +1,7 @@
 package com.bridge.yandexbyd
 
 import android.app.AppOpsManager
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -15,6 +16,40 @@ object SetupHelper {
 
     const val ADB_GRANT_CMD =
         "adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS"
+
+    private const val ACTION_ACCESSIBILITY_DETAILS_SETTINGS =
+        "android.settings.ACCESSIBILITY_DETAILS_SETTINGS"
+
+    fun accessibilityServiceComponent(context: Context): ComponentName =
+        ComponentName(context.packageName, "${context.packageName}.YandexA11yService")
+
+    /**
+     * Opens the system screen for this app's accessibility service.
+     * Falls back to the general accessibility list if the details screen is unavailable.
+     */
+    fun openAccessibilitySettings(context: Context): Boolean {
+        val component = accessibilityServiceComponent(context)
+        val details = Intent(ACTION_ACCESSIBILITY_DETAILS_SETTINGS).apply {
+            putExtra(Intent.EXTRA_COMPONENT_NAME, component.flattenToString())
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        if (launchIfResolvable(context, details)) return true
+        val list = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        return launchIfResolvable(context, list)
+    }
+
+    private fun launchIfResolvable(context: Context, intent: Intent): Boolean {
+        val pm = context.packageManager
+        if (intent.resolveActivity(pm) == null) return false
+        return try {
+            context.startActivity(intent)
+            true
+        } catch (_: Exception) {
+            false
+        }
+    }
 
     fun hasWriteSecureSettings(context: Context): Boolean {
         val probe = "voltflow_nav_probe_${System.currentTimeMillis()}"
@@ -38,7 +73,7 @@ object SetupHelper {
     fun tryEnableAccessibility(context: Context): Boolean {
         if (!hasWriteSecureSettings(context)) return false
         return try {
-            val component = "${context.packageName}/${context.packageName}.YandexA11yService"
+            val component = accessibilityServiceComponent(context).flattenToString()
             val current = Settings.Secure.getString(
                 context.contentResolver,
                 Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES

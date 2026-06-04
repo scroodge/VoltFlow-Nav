@@ -18,9 +18,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import rikka.shizuku.Shizuku
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var cardAccessibility: LinearLayout
+    private lateinit var cardShizuku: LinearLayout
     private lateinit var cardAdb: LinearLayout
     private lateinit var tvAdbCommand: TextView
     private lateinit var tvTileAccessibility: TextView
@@ -32,6 +35,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnGrant: Button
     private var autoCaptureTried = false
     private var autoUpdateChecked = false
+    private var shizukuGrantInProgress = false
+
+    private val shizukuPermissionListener =
+        Shizuku.OnRequestPermissionResultListener { _, grantResult ->
+            if (grantResult == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                runShizukuGrant()
+            } else {
+                Toast.makeText(this, R.string.setup_shizuku_permission_denied, Toast.LENGTH_LONG).show()
+            }
+        }
 
     private var updateDialog: AlertDialog? = null
     private var pendingUpdate: UpdateChecker.UpdateInfo? = null
@@ -51,6 +64,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        cardAccessibility = findViewById(R.id.cardAccessibility)
+        cardShizuku = findViewById(R.id.cardShizuku)
         cardAdb = findViewById(R.id.cardAdb)
         tvAdbCommand = findViewById(R.id.tvAdbCommand)
         tvTileAccessibility = findViewById(R.id.tvTileAccessibility)
@@ -62,7 +77,10 @@ class MainActivity : AppCompatActivity() {
         btnGrant = findViewById(R.id.btnGrant)
         tvAdbCommand.text = SetupHelper.ADB_GRANT_CMD
         btnGrant.setOnClickListener { requestCapture() }
+        findViewById<Button>(R.id.btnOpenAccessibility).setOnClickListener { openAccessibilitySettings() }
+        findViewById<Button>(R.id.btnShizukuGrant).setOnClickListener { onShizukuGrantClicked() }
         findViewById<Button>(R.id.btnCopyAdb).setOnClickListener { copyAdbCommand() }
+        ShizukuSetupHelper.addPermissionListener(shizukuPermissionListener)
         findViewById<Button>(R.id.btnBattery).setOnClickListener {
             runCatching { startActivity(SetupHelper.batterySettingsIntent(this)) }
         }
@@ -76,6 +94,11 @@ class MainActivity : AppCompatActivity() {
         refreshVersionLabel()
         autoCaptureTried = false
         autoUpdateChecked = false
+    }
+
+    override fun onDestroy() {
+        ShizukuSetupHelper.removePermissionListener(shizukuPermissionListener)
+        super.onDestroy()
     }
 
     override fun onResume() {
@@ -191,10 +214,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshStatus() {
+        val a11y = SetupHelper.isAccessibilityEnabled(this)
         val adbOk = SetupHelper.hasWriteSecureSettings(this)
+
+        cardAccessibility.visibility = if (a11y) View.GONE else View.VISIBLE
+        cardShizuku.visibility = if (adbOk) View.GONE else View.VISIBLE
         cardAdb.visibility = if (adbOk) View.GONE else View.VISIBLE
 
-        val a11y = SetupHelper.isAccessibilityEnabled(this)
         tvTileAccessibility.text = tileLine(
             getString(R.string.setup_tile_accessibility),
             if (a11y) R.string.setup_status_ok else R.string.setup_status_off
@@ -224,6 +250,42 @@ class MainActivity : AppCompatActivity() {
         return "$mark $label: ${getString(statusRes)}"
     }
 
+    private fun openAccessibilitySettings() {
+        if (SetupHelper.openAccessibilitySettings(this)) return
+        Toast.makeText(this, R.string.setup_a11y_open_failed, Toast.LENGTH_LONG).show()
+    }
+
+    private fun onShizukuGrantClicked() {
+        if (!ShizukuSetupHelper.isBinderAlive()) {
+            Toast.makeText(this, R.string.setup_shizuku_not_running, Toast.LENGTH_LONG).show()
+            return
+        }
+        if (!ShizukuSetupHelper.hasShizukuPermission()) {
+            ShizukuSetupHelper.requestPermission(SHIZUKU_PERMISSION_REQUEST)
+            return
+        }
+        runShizukuGrant()
+    }
+
+    private fun runShizukuGrant() {
+        if (shizukuGrantInProgress) return
+        shizukuGrantInProgress = true
+        Toast.makeText(this, R.string.setup_shizuku_working, Toast.LENGTH_SHORT).show()
+        ShizukuSetupHelper.runSetup(this) { ok ->
+            shizukuGrantInProgress = false
+            runOnUiThread {
+                if (ok) {
+                    SetupHelper.tryEnableAccessibility(this)
+                    SetupHelper.tryAllowProjectMedia(this)
+                    Toast.makeText(this, R.string.setup_shizuku_grant_ok, Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, R.string.setup_shizuku_grant_failed, Toast.LENGTH_LONG).show()
+                }
+                refreshStatus()
+            }
+        }
+    }
+
     private fun copyAdbCommand() {
         val cm = getSystemService(ClipboardManager::class.java)
         cm.setPrimaryClip(ClipData.newPlainText("adb", SetupHelper.ADB_GRANT_CMD))
@@ -244,5 +306,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "VoltFlowNav"
+        private const val SHIZUKU_PERMISSION_REQUEST = 9001
     }
 }

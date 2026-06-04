@@ -186,7 +186,7 @@ object UpdateChecker {
 /** Pure helpers used by [UpdateChecker] and unit tests. */
 internal object ReleaseJsonParser {
 
-    fun parseReleaseJson(body: String, currentVersion: String): UpdateInfo? {
+    fun parseReleaseJson(body: String, currentVersion: String): UpdateChecker.UpdateInfo? {
         val json = JSONObject(body)
         val tagName = json.optString("tag_name", "").removePrefix("v")
         if (tagName.isEmpty()) {
@@ -213,7 +213,7 @@ internal object ReleaseJsonParser {
             throw Exception("No APK in release $tagName")
         }
 
-        return UpdateInfo(
+        return UpdateChecker.UpdateInfo(
             version = tagName,
             downloadUrl = apkUrl,
             releaseNotes = json.optString("body", ""),

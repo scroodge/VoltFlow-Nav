@@ -90,7 +90,6 @@ VoltFlow Nav → AUTONAVI_STANDARD_BROADCAST_SEND → com.example.amapservice �
 | Пратакол HUD | [CLUSTER_PROTOCOL.md](CLUSTER_PROTOCOL.md) | [en](docs/CLUSTER_PROTOCOL.en.md) | [ru](docs/CLUSTER_PROTOCOL.ru.md) |
 | UI Yandex | [YANDEX_UI.md](YANDEX_UI.md) | [en](docs/YANDEX_UI.en.md) | [ru](docs/YANDEX_UI.ru.md) |
 | Рэліз | [PUBLISH.md](docs/PUBLISH.md) | [en](docs/PUBLISH.en.md) | [ru](docs/PUBLISH.ru.md) |
-| Маркетынг | [MARKETING_LAUNCH.md](docs/MARKETING_LAUNCH.md) | [en](docs/MARKETING_LAUNCH.en.md) | [ru](docs/MARKETING_LAUNCH.ru.md) |
 | Патч OpenBYD | [PATCH_NOTES.md](openbyd-patch/PATCH_NOTES.md) | [en](docs/PATCH_NOTES.en.md) | [ru](docs/PATCH_NOTES.ru.md) |
 | Changelog | [CHANGELOG.md](CHANGELOG.md) | — | [ru](docs/CHANGELOG.ru.md) · [be](docs/CHANGELOG.be.md) |
 

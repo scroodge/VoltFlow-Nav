@@ -2,7 +2,6 @@ package com.bridge.yandexbyd
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import androidx.test.core.app.ApplicationProvider
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -62,9 +61,6 @@ class ManeuverClassifierTest {
     }
 
     private fun fillBackground(bmp: Bitmap) {
-        val dark = Color.rgb(30, 30, 30)
-        bmp.eraseColor(dark)
-        ApplicationProvider.getApplicationContext<android.content.Context>()
-        // Robolectric needs a context touch so the test APK is loaded; no-op use above.
+        bmp.eraseColor(Color.rgb(30, 30, 30))
     }
 }

@@ -17,3 +17,6 @@
 /openbyd-patch/
 .claude/
 voltflow-nav-release.keystore
+
+# Private launch checklist — local only
+/docs/MARKETING_LAUNCH*.md

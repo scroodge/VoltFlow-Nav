@@ -9,17 +9,14 @@
 
 ## [Unreleased]
 
-### Добавлено
-
-- Автопроверка GitHub Releases и загрузка/установка APK в приложении.
-- Инструмент changelog (`./gradlew releaseChangelog`) и проверка версии перед release-сборкой.
-
 ## [1.0.0] - 2026-06-04
 
 ### Добавлено
 
 - Первый мост VoltFlow Nav: Яндекс Навигатор → HUD BYD DiLink 3.0 через AMap broadcast.
 - Экран настройки: accessibility, захват экрана, одноразовый ADB grant.
+- Автопроверка GitHub Releases и загрузка/установка APK в приложении.
+- Инструмент changelog (`./gradlew releaseChangelog`) и проверка версии перед release-сборкой.
 
 [Unreleased]: https://github.com/scroodge/VoltFlow-Nav/compare/v1.0.0...HEAD
 [1.0.0]: https://github.com/scroodge/VoltFlow-Nav/releases/tag/v1.0.0

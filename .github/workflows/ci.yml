@@ -17,6 +17,8 @@ jobs:
           java-version: "17"
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest --no-daemon
       - name: Assemble debug APK
         run: ./gradlew assembleDebug --no-daemon
       - name: Upload debug APK artifact

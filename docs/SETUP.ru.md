@@ -12,12 +12,14 @@
 
 ### Скачать Shizuku
 
-| Источник | Ссылка |
-|----------|--------|
-| APK (установка с флешки/файлов) | [GitHub Releases — RikkaApps/Shizuku](https://github.com/RikkaApps/Shizuku/releases) |
-| Google Play (если доступен) | [Shizuku в Play Store](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api) |
-| Официальная инструкция | [shizuku.rikka.app/guide/setup](https://shizuku.rikka.app/guide/setup/) |
+
+| Источник                         | Ссылка                                                                                               |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| APK (установка с флешки/файлов)  | [GitHub Releases — RikkaApps/Shizuku](https://github.com/RikkaApps/Shizuku/releases)                 |
+| Google Play (если доступен)      | [Shizuku в Play Store](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api)     |
+| Официальная инструкция           | [shizuku.rikka.app/guide/setup](https://shizuku.rikka.app/guide/setup/)                              |
 | Android 10: запуск через USB ADB | [Подключение к компьютеру](https://shizuku.rikka.app/guide/setup/#start-by-connecting-to-a-computer) |
+
 
 Имя пакета: `moe.shizuku.privileged.api`
 
@@ -25,38 +27,30 @@
 
 1. Установите APK **VoltFlow Nav** ([Releases](https://github.com/scroodge/VoltFlow-Nav/releases)).
 2. Установите **Shizuku** с GitHub или Play (см. таблицу).
-3. На головном устройстве: **Для разработчиков** и **Отладка по USB**.
-4. Подключите машину к ПК, `adb devices`, на экране — **Разрешить отладку** (лучше **Всегда**).
-5. При необходимости: `adb install -r Shizuku-v*.apk`
-6. **Запустите Shizuku** — команда из приложения Shizuku или на ПК:
+3. Откройте **Shizuku** на машине — статус **running**. Не отключайте отладку USB и режим разработчика.
+4. **VoltFlow Nav** → **Grant via Shizuku** → разрешите доступ Shizuku.
+5. Посмотрите что стоят галочки напротив: **Accessibility: OK** (и при возможности **PROJECT_MEDIA: OK**).
+6. Нажмите  **Screen capture**.
+7. **Open Disable background Apps** в VoltFlow (или **Настройки → General → Disable background Apps**). Для **VoltFlow Nav** переключатель **OFF**.
 
-```bash
-adb shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh
-```
-
-Если путь не сработал на BYD:
-
-```bash
-adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
-```
-
-7. Откройте **Shizuku** на машине — статус **running**. Не отключайте отладку USB и режим разработчика.
-8. **VoltFlow Nav** → **Grant via Shizuku** → разрешите доступ Shizuku.
-9. Плитки: **Accessibility: OK** (и при возможности **PROJECT_MEDIA: OK**).
-10. **Restart screen capture** (снова после каждой перезагрузки).
-11. **Open Disable background Apps** в VoltFlow (или **Настройки → General → Disable background Apps**). Для **VoltFlow Nav** переключатель **OFF**.  
-    **OFF = фон разрешён** (чёрный список, как в [BYDMate](https://github.com/AndyShaman/BYDMate)). **ON** = DiLink может убить мост.
+**OFF = фон разрешён** (чёрный список, как в [BYDMate](https://github.com/AndyShaman/BYDMate)). **ON** = DiLink может убить мост.
 
 ### После перезагрузки
 
-- **Shizuku** на Android 10 нужно запускать снова (шаг 6 с ПК).
 - Права VoltFlow (**WRITE_SECURE_SETTINGS**, accessibility) **сохраняются** до удаления приложения.
-- **Захват экрана** — снова в VoltFlow после каждой перезагрузки головного устройства.
 
 ### Навигация
 
 - Не запускайте штатную навигацию **BYD AMap** вместе с Yandex.
 - **Яндекс Навигатор** должен быть **на экране** во время маршрута.
+
+### Выбор цели DiLink (v1.2.0+)
+
+На экране настройки есть селектор **Auto / DiLink 3 / DiLink 5**:
+
+- **Auto** — рекомендуется (автоопределение по `ro.build.product` / `ro.vehicle.type`).
+- **DiLink 3** — стабильный путь для DiLink 3.0.
+- **DiLink 5** — экспериментальный вывод для DiLink 5/6 (broadcast-first, формат OpenBYD).
 
 ---
 
@@ -70,7 +64,7 @@ adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
 
 ```bash
 adb connect <car-ip>:5555
-./setup-car.sh /path/to/VoltFlowNav-v1.1.0.apk
+./setup-car.sh /path/to/VoltFlowNav-v1.2.0.apk
 ```
 
 Только grant:

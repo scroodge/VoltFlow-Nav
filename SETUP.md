@@ -25,37 +25,29 @@
 
 1. Усталюйце APK **VoltFlow Nav** ([Releases](https://github.com/scroodge/VoltFlow-Nav/releases)).
 2. Усталюйце **Shizuku** з GitHub або Play (табліца вышэй).
-3. На галавной прыладзе: **Рэжым распрацоўшчыка** і **ADB па USB** (для вашай мадэлі BYD/DiLink — форумы).
-4. Падключыце аўтамабіль да ПК, `adb devices`, на экране — **Дазволіць адладку** (лепш **Заўсёды**).
-5. Калі ставілі з ПК: `adb install -r Shizuku-v*.apk`
-6. **Запусціце Shizuku** — каманда з дадатку Shizuku або на ПК:
+3. Адкрыйце **Shizuku** на аўтамабілі — статус **running**.
+4. **VoltFlow Nav** → **Grant via Shizuku** → дазвольце доступ Shizuku.
+5. Праверце пліткі статусу: **Accessibility: OK** (і, калі магчыма, **PROJECT_MEDIA: OK**).
+6. Націсніце **Screen capture**.
+7. **Open Disable background Apps** у VoltFlow (ці **Налады → General → Disable background Apps**). Для **VoltFlow Nav** пераключальнік **OFF**.
 
-```bash
-adb shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh
-```
-
-Калі шлях не працуе на BYD:
-
-```bash
-adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
-```
-
-7. Адкрыйце **Shizuku** на галавной — статус **running**. Не адключайце ADB і рэжым распрацоўшчыка.
-8. **VoltFlow Nav** → **Grant via Shizuku** → дазвольце доступ Shizuku.
-9. Пліткі статусу: **Accessibility: OK** (і пры магчымасці **PROJECT_MEDIA: OK**).
-10. **Restart screen capture** і пацвердзіце сістэмны дыялог (зноў пасля кожнай перазагрузкі).
-11. **Open Disable background Apps** — **VoltFlow Nav** = **OFF** (OFF дазваляе фон; як у [BYDMate](https://github.com/AndyShaman/BYDMate)).
+**OFF = фон дазволены** (чорны спіс, як у [BYDMate](https://github.com/AndyShaman/BYDMate)). **ON** = DiLink можа забіць мост.
 
 ### Пасля перазагрузкі
 
-- **Shizuku** на Android 10 трэба запускаць зноў (паўтарыце крок 6 з ПК або паводле Shizuku ў дадатку).
-- Правы VoltFlow (**WRITE_SECURE_SETTINGS**, accessibility) **застаюцца** да выдалення APK.
-- **Захоп экрана** — зноў у VoltFlow пасля кожнай перазагрузкі галавной.
+- Правы VoltFlow (**WRITE_SECURE_SETTINGS**, accessibility) **застаюцца** да выдалення праграмы.
 
 ### Навігацыя
 
 - **Не** запускайце штатную навігацыю BYD AMap разам з Yandex.
 - **Яндэкс Навігатар** павінен быць **на экране** падчас маршруту.
+
+### Выбар мэты DiLink (v1.2.0+)
+
+На экране наладкі ёсць селектар **Auto / DiLink 3 / DiLink 5**:
+- **Auto** — рэкамендавана (аўтавызначэнне па `ro.build.product` / `ro.vehicle.type`).
+- **DiLink 3** — стабільны шлях для DiLink 3.0.
+- **DiLink 5** — эксперыментальны вывад для DiLink 5/6 (broadcast-first, фармат OpenBYD).
 
 ---
 
@@ -67,13 +59,11 @@ adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
 
 ---
 
-## Альтэрнатыва: аднаразовы ADB з ПК
-
-Той жа вынік, што Grant via Shizuku, без Shizuku на аўтамабілі:
+## Альтэрнатыва: ADB з ПК адзін раз
 
 ```bash
 adb connect <car-ip>:5555
-./setup-car.sh /path/to/VoltFlowNav-v1.1.0.apk
+./setup-car.sh /path/to/VoltFlowNav-v1.2.0.apk
 ```
 
 Толькі grant:
@@ -82,7 +72,7 @@ adb connect <car-ip>:5555
 adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS
 ```
 
-Далей на галавной — захоп экрана і батарэя ў VoltFlow Nav.
+Далей на аўтамабілі — захоп экрана і **Disable background Apps = OFF**.
 
 ---
 

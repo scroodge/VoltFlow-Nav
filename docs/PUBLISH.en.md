@@ -40,30 +40,30 @@ Preview without editing files:
 Manual version:
 
 ```bash
-./gradlew releaseChangelog -PreleaseVersion=1.0.1
+./gradlew releaseChangelog -PreleaseVersion=1.2.1
 ```
 
 2. Review and edit [`CHANGELOG.md`](../CHANGELOG.md) if needed (canonical English file for the build).
 
-3. Set **`versionName`** and increment **`versionCode`** in [`app/build.gradle`](../app/build.gradle) to match the latest dated section in `CHANGELOG.md` (e.g. `## [1.0.1] - 2026-06-05`).
+3. Set **`versionName`** and increment **`versionCode`** in [`app/build.gradle`](../app/build.gradle) to match the latest dated section in `CHANGELOG.md` (e.g. `## [1.2.1] - 2026-06-05`).
 
 4. Build release APK (`verifyReleaseVersion` runs automatically and fails if versions disagree):
 
 ```bash
 ./gradlew clean assembleRelease
-# Output: app/build/outputs/apk/release/VoltFlowNav-v1.0.0.apk
+# Output: app/build/outputs/apk/release/VoltFlowNav-v1.2.0.apk
 ```
 
 5. Commit, tag, and push:
 
 ```bash
 git add CHANGELOG.md app/build.gradle
-git commit -m "chore(release): v1.0.1"
-git tag v1.0.1
-git push origin main v1.0.1
+git commit -m "chore(release): v1.2.1"
+git tag v1.2.1
+git push origin main v1.2.1
 ```
 
-6. GitHub Actions ([release.yml](../.github/workflows/release.yml)) attaches `VoltFlowNav-v1.0.1.apk` to the Release.
+6. GitHub Actions ([release.yml](../.github/workflows/release.yml)) attaches `VoltFlowNav-v1.2.1.apk` to the Release.
 
 The in-app updater calls `https://api.github.com/repos/scroodge/VoltFlow-Nav/releases/latest` and installs the first `.apk` asset.
 
@@ -75,8 +75,8 @@ Ensure `CHANGELOG.md` has a dated section matching `versionName`, then:
 
 ```bash
 ./gradlew assembleRelease
-git tag v1.0.0
-git push origin v1.0.0
+git tag v1.2.0
+git push origin v1.2.0
 ```
 
 ## Verify before push

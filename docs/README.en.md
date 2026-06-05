@@ -37,7 +37,7 @@
 ## Compatibility
 
 - **Vehicle:** BYD Yuan UP 2024 (tested)
-- **DiLink:** 3.0 (`ro.build.product=DiLink3.0`, `ro.vehicle.type=Di3.0_3.5UI`)
+- **DiLink:** 3.0 (tested), 5/6 (experimental output in v1.2.0)
 - **Android:** 10
 - **Navigator:** `ru.yandex.yandexnavi`
 
@@ -47,11 +47,15 @@
 2. Sideload on the head unit (file manager or `adb install -r VoltFlowNav.apk`).
 3. **Shizuku setup** on the head unit (recommended for DiLink 3.0) — full guide: [SETUP.en.md](SETUP.en.md):
    - Install [Shizuku](https://github.com/RikkaApps/Shizuku/releases) ([Play](https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api) · [manual](https://shizuku.rikka.app/guide/setup/)).
-   - Start Shizuku once via USB ADB (Android 10), then in VoltFlow Nav tap **Grant via Shizuku**.
+   - Open Shizuku: status **running**.
+   - In VoltFlow Nav tap **Grant via Shizuku**, verify **Accessibility: OK**.
+   - Enable **Screen capture**.
+   - In **Disable background Apps**, set VoltFlow Nav to **OFF**.
    - Manual accessibility in Settings **does not work** on DiLink 3.0 (tested on Yuan UP).
-4. On the car: allow **screen capture** (in-app button; required after each reboot).
+4. On the car: enable **Screen capture** again after reboot.
 5. Do **not** run BYD AMap navigation (it blocks third-party broadcasts).
 6. Start a Yandex route and keep Yandex **visible** on screen.
+7. On setup screen select target: **Auto** (recommended) / **DiLink 3** / **DiLink 5**.
 
 Alternative without Shizuku: one-time PC [`setup-car.sh`](../setup-car.sh) or `adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS`.
 
@@ -87,9 +91,10 @@ See [CLUSTER_PROTOCOL.en.md](CLUSTER_PROTOCOL.en.md) and [YANDEX_UI.en.md](YANDE
 ## Limitations
 
 - Yandex must stay **on screen** while navigating.
-- After **reboot**: restart **Shizuku** (step 6 in [SETUP.en.md](SETUP.en.md)), then **screen capture** again («Restart screen capture»).
+- After **reboot**: enable **Screen capture** again (in-app button: «Screen capture»).
 - v1.0 maneuvers: mostly **left / right / straight**.
 - Drive panel is experimental.
+- DiLink 5/6 output in v1.2.0 is experimental (switch target manually if needed).
 
 ## Roadmap
 
@@ -113,7 +118,7 @@ Free and **MIT**. Optional donations help BYD hardware testing and the VoltFlow 
 
 ```bash
 ./gradlew assembleDebug
-# APK: app/build/outputs/apk/debug/VoltFlowNav-1.0.0-debug.apk
+# APK: app/build/outputs/apk/debug/VoltFlowNav-1.2.0-debug.apk
 adb logcat -s VoltFlowNav
 ```
 

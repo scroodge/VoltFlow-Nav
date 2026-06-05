@@ -25,38 +25,29 @@ Package name: `moe.shizuku.privileged.api`
 
 1. Install **VoltFlow Nav** APK on the head unit ([Releases](https://github.com/scroodge/VoltFlow-Nav/releases)).
 2. Install **Shizuku** APK from GitHub or Play (see table above).
-3. On the head unit: enable **Developer options** and **USB debugging** (see BYD/DiLink forums for your model).
-4. Connect the car to a PC with ADB; run `adb devices` and accept **Allow USB debugging** on the screen (check **Always allow** if offered).
-5. Install Shizuku if you used the PC: `adb install -r Shizuku-v*.apk`
-6. **Start Shizuku** — copy the command from the Shizuku app, or run on the PC:
+3. Open **Shizuku** on the car — status should be **running**.
+4. Open **VoltFlow Nav** → tap **Grant via Shizuku** → allow Shizuku access when prompted.
+5. Check that status tiles are checked: **Accessibility: OK** (and, if available, **PROJECT_MEDIA: OK**).
+6. Tap **Screen capture**.
+7. Tap **Open Disable background Apps** in VoltFlow (or **Settings → General → Disable background Apps**). Set **VoltFlow Nav** to **OFF**.
 
-```bash
-adb shell sh /storage/emulated/0/Android/data/moe.shizuku.privileged.api/start.sh
-```
-
-If that path fails on your BYD build, try:
-
-```bash
-adb shell sh /sdcard/Android/data/moe.shizuku.privileged.api/start.sh
-```
-
-7. Open the **Shizuku** app on the head unit — status should show the service **running**. Keep **USB debugging** and **Developer options** enabled (Shizuku requirement).
-8. Open **VoltFlow Nav** → tap **Grant via Shizuku** → allow Shizuku access when prompted.
-9. Check status tiles: **Accessibility: OK** (and optionally **PROJECT_MEDIA: OK**).
-10. Tap **Restart screen capture** and confirm the system dialog (needed again after each reboot).
-11. Tap **Open Disable background Apps** in VoltFlow (or **Settings → General → Disable background Apps** on DiLink). Find **VoltFlow Nav** and set the switch to **OFF**.  
-    **OFF = background allowed** (blacklist, same as [BYDMate](https://github.com/AndyShaman/BYDMate)). **ON** = DiLink may kill the bridge.
+**OFF = background allowed** (blacklist behavior, same as [BYDMate](https://github.com/AndyShaman/BYDMate)). **ON** = DiLink may kill the bridge.
 
 ### After reboot
 
-- **Shizuku** must be started again on Android 10 (repeat step 6 from a PC, or use Shizuku’s in-app instructions).
-- VoltFlow’s **WRITE_SECURE_SETTINGS** grant and accessibility enablement **stay** until you uninstall VoltFlow Nav.
-- **Screen capture** must be allowed again in VoltFlow after each head-unit reboot.
+- VoltFlow permissions (**WRITE_SECURE_SETTINGS**, accessibility) **stay** until you uninstall the app.
 
 ### Navigation
 
 - Do **not** run BYD AMap navigation while using Yandex (it blocks third-party HUD updates).
 - Keep **Yandex Navigator visible** on screen during the route.
+
+### DiLink target selector (v1.2.0+)
+
+Setup screen includes **Auto / DiLink 3 / DiLink 5**:
+- **Auto** — recommended (auto-detection via `ro.build.product` / `ro.vehicle.type`).
+- **DiLink 3** — stable path for DiLink 3.0.
+- **DiLink 5** — experimental output path for DiLink 5/6 (broadcast-first, OpenBYD format).
 
 ---
 
@@ -74,7 +65,7 @@ Same result as Shizuku grant, without installing Shizuku on the car:
 
 ```bash
 adb connect <car-ip>:5555
-./setup-car.sh /path/to/VoltFlowNav-v1.1.0.apk
+./setup-car.sh /path/to/VoltFlowNav-v1.2.0.apk
 ```
 
 Grant only:

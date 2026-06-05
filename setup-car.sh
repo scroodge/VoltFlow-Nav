@@ -6,7 +6,7 @@ set -euo pipefail
 
 PKG=com.bridge.yandexbyd
 A11Y="$PKG/$PKG.YandexA11yService"
-APK="${1:-$HOME/Downloads/VoltFlowNav-v1.1.0.apk}"
+APK="${1:-$HOME/Downloads/VoltFlowNav-v1.2.0.apk}"
 
 echo "==> installing $APK"
 adb install -r "$APK"

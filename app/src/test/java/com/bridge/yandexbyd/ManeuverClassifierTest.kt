@@ -35,8 +35,10 @@ class ManeuverClassifierTest {
         val bmp = Bitmap.createBitmap(64, 64, Bitmap.Config.ARGB_8888)
         fillBackground(bmp)
         val yTop = bmp.height / 2
+        val centerStart = (bmp.width * 0.40f).toInt() + 1
+        val centerEnd = (bmp.width * 0.60f).toInt() + 1
         for (y in 0 until yTop) {
-            for (x in bmp.width / 3 until 2 * bmp.width / 3) {
+            for (x in centerStart until centerEnd) {
                 bmp.setPixel(x, y, Color.WHITE)
             }
         }
@@ -49,10 +51,11 @@ class ManeuverClassifierTest {
         val h = 64
         val bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
         fillBackground(bmp)
+        val border = 2
         val yTop = h / 2
-        val xStart = if (leftHeavy) 0 else w / 2
-        val xEnd = if (leftHeavy) w / 2 else w
-        for (y in 0 until yTop) {
+        val xStart = if (leftHeavy) border else w / 2
+        val xEnd = if (leftHeavy) w / 2 else w - border
+        for (y in border until yTop) {
             for (x in xStart until xEnd) {
                 bmp.setPixel(x, y, Color.WHITE)
             }

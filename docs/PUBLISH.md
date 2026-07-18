@@ -51,7 +51,7 @@ git push -u origin main
 
 ```bash
 ./gradlew clean assembleRelease
-# Выхад: app/build/outputs/apk/release/VoltFlowNav-v1.2.0.apk
+# Выхад: app/build/outputs/apk/release/VoltFlowNav-v1.2.1.apk
 ```
 
 5. Commit, тэг, push:

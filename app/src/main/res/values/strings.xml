@@ -4,7 +4,7 @@
     <string name="a11y_desc">Чытае панэль паваротаў Яндекс Навігатара на экране і перадае адлегласць, вуліцу і ETA на прыборную панэль BYD.</string>
 
     <string name="setup_title">VoltFlow Nav</string>
-    <string name="setup_subtitle">Яндекс Навігатар на HUD BYD</string>
+    <string name="setup_subtitle">Яндекс Навігатар і Карты на HUD BYD</string>
     <string name="setup_tile_accessibility">Спецыяльныя магчымасці</string>
     <string name="setup_tile_capture">Захоп экрана</string>
     <string name="setup_tile_project_media">PROJECT_MEDIA (неабавязкова)</string>
@@ -36,7 +36,12 @@
     <string name="setup_shizuku_grant_failed">Выдача праз Shizuku не ўдалася. Паспрабуйце ADB з ПК або спецыяльныя магчымасці ўручную.</string>
     <string name="setup_shizuku_working">Выдача праз Shizuku…</string>
     <string name="setup_hint_amap">Падчас Яндекса трымайце навігацыю BYD AMap выключанай.</string>
-    <string name="setup_hint_yandex">Падчас навігацыі Яндекс павінен заставацца на экране.</string>
+    <string name="setup_hint_yandex">Падчас навігацыі Яндекс (Навігатар ці Карты) павінен заставацца на экране.</string>
+    <string name="setup_hint_yandex_turnhints">Яндекс: Налады → Навігацыя → уключыце «Паказваць падказкі паваротаў у куце экрана» (першы пераключальнік). Без гэтага мост не чытае павароты.</string>
+
+    <string name="setup_hud_title">Вывад на HUD</string>
+    <string name="setup_cluster_broadcast">Віджэт навігацыі ў прыборнай панэлі</string>
+    <string name="setup_cluster_broadcast_hint">Адпраўляе павароты ў кластар (сімуляваныя апавяшчэнні AMap). Выключыце, калі ёсць канфлікт з уласным навігацыйным віджэтам аўтамабіля.</string>
 
     <string name="update_section_title">Абнаўленні</string>
     <string name="update_version_label">Версія v%1$s</string>

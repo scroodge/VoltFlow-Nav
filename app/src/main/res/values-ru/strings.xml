@@ -4,7 +4,7 @@
     <string name="a11y_desc">Читает панель поворотов Яндекс Навигатора на экране и передаёт расстояние, улицу и ETA на приборную панель BYD.</string>
 
     <string name="setup_title">VoltFlow Nav</string>
-    <string name="setup_subtitle">Яндекс Навигатор на HUD BYD</string>
+    <string name="setup_subtitle">Яндекс Навигатор и Карты на HUD BYD</string>
     <string name="setup_tile_accessibility">Спец. возможности</string>
     <string name="setup_tile_capture">Захват экрана</string>
     <string name="setup_tile_project_media">PROJECT_MEDIA (необязательно)</string>
@@ -36,7 +36,12 @@
     <string name="setup_shizuku_grant_failed">Выдача через Shizuku не удалась. Попробуйте ADB с ПК или спец. возможности вручную.</string>
     <string name="setup_shizuku_working">Выдача через Shizuku…</string>
     <string name="setup_hint_amap">При Яндексе держите навигацию BYD AMap выключенной.</string>
-    <string name="setup_hint_yandex">Во время навигации Яндекс должен оставаться на экране.</string>
+    <string name="setup_hint_yandex">Во время навигации Яндекс (Навигатор или Карты) должен оставаться на экране.</string>
+    <string name="setup_hint_yandex_turnhints">Яндекс: Настройки → Навигация → включите «Показывать подсказки поворотов в углу экрана» (первый переключатель). Без этого мост не читает повороты.</string>
+
+    <string name="setup_hud_title">Вывод на HUD</string>
+    <string name="setup_cluster_broadcast">Виджет навигации в приборной панели</string>
+    <string name="setup_cluster_broadcast_hint">Отправляет повороты в кластер (симулированные уведомления AMap). Выключите, если есть конфликт с собственным навигационным виджетом автомобиля.</string>
 
     <string name="update_section_title">Обновления</string>
     <string name="update_version_label">Версия v%1$s</string>

@@ -1,0 +1,7 @@
+Before starting any task:
+1. Call memory_smart_search with relevant keywords to recall past context
+2. Call memory_sessions to check recent work
+
+After completing any task:
+1. Call memory_save to record what was done, decisions made, and any gotchas
+2. Call memory_profile to update project understanding

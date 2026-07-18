@@ -9,6 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-06-17
+
+### Added
+
+- **Yandex Maps support** alongside Yandex Navigator. The bridge now reads the on-screen turn panel of both `ru.yandex.yandexnavi` and `ru.yandex.yandexmaps` (shared MapKit turn-panel resource ids, resolved per firing package).
+- **Cluster navigation widget toggle** on the setup screen. Turns the simulated AMap cluster broadcast on/off so users can disable it if it conflicts with the car's own navigation widget while a trip is in progress.
+- **In-app reminder** that Yandex's *Settings → Navigation → "Show turn hints in the corner of the screen"* (first switch) must be ON — without it Yandex draws the hint inside the map and the bridge cannot read turns.
+
+### Changed
+
+- **Turn-icon resolution is now text-first with pixel fallback.** The maneuver image's `contentDescription` is read first (deterministic; populated on some Yandex builds — this is how OpenBYD classifies); pixel classification is used only when it's absent. On-car testing confirmed this car's Yandex build leaves the `contentDescription` null, so the pixel classifier remains the working path here.
+- **Turn icon is debounced** (2 consistent reads) so a single misclassified frame can no longer flip the cluster arrow — fixes an observed `STRAIGHT⇄LEFT` flicker on a static turn.
+- **Guidance-end is detected by a 4-second expiration window** instead of a single missing frame, preventing false STOPs when the turn panel briefly disappears between screens.
+- Debug logs are now written to the public **Downloads/VoltFlowNav/** folder so they can be opened from the car's built-in file manager without ADB.
+- Shizuku setup polls the binder up to **12 times** before giving up, so a slow daemon after a cold boot still binds (mirrors the OpenBYD local-ADB retry).
+
 ## [1.2.0] - 2026-06-04
 
 ### Added

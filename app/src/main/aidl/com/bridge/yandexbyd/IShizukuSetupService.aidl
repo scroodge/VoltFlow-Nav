@@ -4,4 +4,5 @@ interface IShizukuSetupService {
     boolean grantWriteSecureSettings(String packageName);
     boolean enableAccessibility(String packageName, String serviceComponent);
     boolean allowProjectMedia(String packageName);
+    boolean allowSystemAlertWindow(String packageName);
 }

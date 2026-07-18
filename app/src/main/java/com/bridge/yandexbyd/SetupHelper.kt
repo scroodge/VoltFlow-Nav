@@ -12,6 +12,7 @@ import android.text.TextUtils
 object SetupHelper {
 
     private const val OP_PROJECT_MEDIA = "android:project_media"
+    private const val OP_SYSTEM_ALERT_WINDOW = "android:system_alert_window"
 
     const val ADB_GRANT_CMD =
         "adb shell pm grant com.bridge.yandexbyd android.permission.WRITE_SECURE_SETTINGS"
@@ -110,6 +111,21 @@ object SetupHelper {
 
     fun tryAllowProjectMedia(context: Context): Boolean {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return false
+        return tryAllowAppOp(context, OP_PROJECT_MEDIA)
+    }
+
+    /**
+     * SYSTEM_ALERT_WINDOW exempts the app from Android 10 background-activity-launch
+     * blocking, so BootReceiver can reopen MainActivity after a reboot/quickboot and
+     * re-establish the MediaProjection capture without a user tap.
+     */
+    fun isSystemAlertWindowAllowed(context: Context): Boolean =
+        Settings.canDrawOverlays(context)
+
+    fun trySystemAlertWindow(context: Context): Boolean =
+        tryAllowAppOp(context, OP_SYSTEM_ALERT_WINDOW)
+
+    private fun tryAllowAppOp(context: Context, op: String): Boolean {
         if (!hasWriteSecureSettings(context)) return false
         return try {
             val appOps = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
@@ -122,7 +138,7 @@ object SetupHelper {
             )
             setMode.invoke(
                 appOps,
-                OP_PROJECT_MEDIA,
+                op,
                 android.os.Process.myUid(),
                 context.packageName,
                 AppOpsManager.MODE_ALLOWED

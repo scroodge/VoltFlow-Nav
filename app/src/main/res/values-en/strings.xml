@@ -4,7 +4,7 @@
     <string name="a11y_desc">Reads Yandex Navigator\'s on-screen turn panel and forwards distance, street and ETA to the BYD instrument cluster.</string>
 
     <string name="setup_title">VoltFlow Nav</string>
-    <string name="setup_subtitle">Yandex Navigator on your BYD HUD</string>
+    <string name="setup_subtitle">Yandex Navigator &amp; Maps on your BYD HUD</string>
     <string name="setup_tile_accessibility">Accessibility</string>
     <string name="setup_tile_capture">Screen capture</string>
     <string name="setup_tile_project_media">PROJECT_MEDIA (optional)</string>
@@ -36,7 +36,12 @@
     <string name="setup_shizuku_grant_failed">Shizuku grant failed. Try PC ADB or manual accessibility.</string>
     <string name="setup_shizuku_working">Granting via Shizuku…</string>
     <string name="setup_hint_amap">Keep BYD AMap navigation off while using Yandex.</string>
-    <string name="setup_hint_yandex">Yandex must stay visible on screen during navigation.</string>
+    <string name="setup_hint_yandex">Yandex (Navigator or Maps) must stay visible on screen during navigation.</string>
+    <string name="setup_hint_yandex_turnhints">Yandex: Settings → Navigation → turn on “Show turn hints in the corner of the screen” (the first switch). Without it the bridge can\'t read turns.</string>
+
+    <string name="setup_hud_title">HUD output</string>
+    <string name="setup_cluster_broadcast">Instrument-cluster navigation widget</string>
+    <string name="setup_cluster_broadcast_hint">Sends turn directions to the cluster (simulated AMap notifications). Turn off if it conflicts with the car\'s own navigation widget.</string>
 
     <string name="update_section_title">Updates</string>
     <string name="update_version_label">Version v%1$s</string>

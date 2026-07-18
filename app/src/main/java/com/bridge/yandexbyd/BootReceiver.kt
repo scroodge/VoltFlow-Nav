@@ -7,9 +7,10 @@ import android.util.Log
 
 /**
  * On boot, opens MainActivity so it can self-enable accessibility and re-establish
- * screen capture (the MediaProjection token doesn't survive a reboot). Best-effort:
- * Android may block the background activity start, in which case opening the app
- * once after boot does the same thing.
+ * screen capture (the MediaProjection token doesn't survive a reboot). Android 10
+ * silently drops this background activity start (no exception, "Abort background
+ * activity starts" in logcat) unless the app holds SYSTEM_ALERT_WINDOW — granted
+ * via the Shizuku setup flow.
  */
 class BootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -19,7 +20,8 @@ class BootReceiver : BroadcastReceiver() {
             try {
                 context.startActivity(
                     Intent(context, MainActivity::class.java)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .putExtra(MainActivity.EXTRA_FROM_BOOT, true)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 )
             } catch (e: Exception) {
                 Log.w("VoltFlowNav", "boot launch blocked: ${e.message}")

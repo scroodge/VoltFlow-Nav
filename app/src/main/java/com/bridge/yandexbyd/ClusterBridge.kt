@@ -18,6 +18,9 @@ object ClusterBridge {
         routeRemainTime: Int = -1,
         etaText: String? = null,
     ) {
+        // User can disable the simulated cluster broadcast if it conflicts with
+        // the car's own navigation widget.
+        if (!HudSettings.isClusterBroadcastEnabled(context)) return
         when (DiLink.resolved(context)) {
             DiLinkTarget.DILINK5 -> Dilink5BroadcastSender.sendNaviUpdate(
                 context, iconId, segRemainDist, roadName, routeRemainDist, routeRemainTime, etaText
@@ -29,6 +32,7 @@ object ClusterBridge {
     }
 
     fun sendNaviStop(context: Context) {
+        if (!HudSettings.isClusterBroadcastEnabled(context)) return
         when (DiLink.resolved(context)) {
             DiLinkTarget.DILINK5 -> Dilink5BroadcastSender.sendNaviStop(context)
             else -> AmapBroadcastSender.sendNaviStop(context)

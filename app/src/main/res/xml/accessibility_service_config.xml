@@ -5,5 +5,5 @@
     android:accessibilityFlags="flagReportViewIds|flagIncludeNotImportantViews|flagRetrieveInteractiveWindows"
     android:canRetrieveWindowContent="true"
     android:notificationTimeout="100"
-    android:packageNames="ru.yandex.yandexnavi"
+    android:packageNames="ru.yandex.yandexnavi,ru.yandex.yandexmaps"
     android:description="@string/a11y_desc" />

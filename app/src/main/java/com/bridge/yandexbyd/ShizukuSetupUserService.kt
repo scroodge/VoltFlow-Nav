@@ -33,6 +33,9 @@ class ShizukuSetupUserService : IShizukuSetupService.Stub() {
         return shellOk("appops set $packageName PROJECT_MEDIA allow")
     }
 
+    override fun allowSystemAlertWindow(packageName: String): Boolean =
+        shellOk("appops set $packageName SYSTEM_ALERT_WINDOW allow")
+
     private fun shellOutput(command: String): String? {
         return try {
             val process = Runtime.getRuntime().exec(arrayOf("sh", "-c", command))

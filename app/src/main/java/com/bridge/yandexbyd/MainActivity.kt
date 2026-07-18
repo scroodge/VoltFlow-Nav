@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTileBackground: TextView
     private lateinit var tvAppVersion: TextView
     private lateinit var switchAutoCheck: SwitchCompat
+    private lateinit var switchClusterBroadcast: SwitchCompat
     private lateinit var btnGrant: Button
     private lateinit var btnLangBe: Button
     private lateinit var btnLangEn: Button
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnDilink5: Button
     private var autoCaptureTried = false
     private var lastCaptureRequestMs = 0L
+    private var minimizeAfterCapture = false
     private var autoUpdateChecked = false
     private var shizukuGrantInProgress = false
 
@@ -65,6 +67,13 @@ class MainActivity : AppCompatActivity() {
                     .putExtra(CaptureService.EXTRA_RESULT_CODE, res.resultCode)
                     .putExtra(CaptureService.EXTRA_DATA, res.data)
                 if (Build.VERSION.SDK_INT >= 26) startForegroundService(i) else startService(i)
+                if (minimizeAfterCapture) {
+                    minimizeAfterCapture = false
+                    // Opened by BootReceiver only to re-arm capture — get out of the
+                    // way so Yandex Navigator (and the MacroDroid boot taps) keep
+                    // the screen.
+                    moveTaskToBack(true)
+                }
             }
             refreshStatus()
         }
@@ -75,6 +84,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        InstallEventLogger.append(
+            this,
+            "mainActivity_onCreate action=${intent?.action} savedState=${savedInstanceState != null}"
+        )
+        InstallDiagnostics.dump(this, "mainActivity_onCreate")
         setContentView(R.layout.activity_main)
         btnLangBe = findViewById(R.id.btnLangBe)
         btnLangEn = findViewById(R.id.btnLangEn)
@@ -115,6 +129,11 @@ class MainActivity : AppCompatActivity() {
         switchAutoCheck.setOnCheckedChangeListener { _, enabled ->
             UpdateChecker.setAutoCheckEnabled(this, enabled)
         }
+        switchClusterBroadcast = findViewById(R.id.switchClusterBroadcast)
+        switchClusterBroadcast.isChecked = HudSettings.isClusterBroadcastEnabled(this)
+        switchClusterBroadcast.setOnCheckedChangeListener { _, enabled ->
+            HudSettings.setClusterBroadcastEnabled(this, enabled)
+        }
         findViewById<Button>(R.id.btnCheckUpdates).setOnClickListener {
             runManualUpdateCheck()
         }
@@ -128,6 +147,11 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+    }
+
     override fun onResume() {
         super.onResume()
         if (!SetupHelper.isAccessibilityEnabled(this)) {
@@ -135,6 +159,9 @@ class MainActivity : AppCompatActivity() {
         }
         if (!SetupHelper.isProjectMediaAllowed(this)) {
             SetupHelper.tryAllowProjectMedia(this)
+        }
+        if (!SetupHelper.isSystemAlertWindowAllowed(this)) {
+            SetupHelper.trySystemAlertWindow(this)
         }
         // Re-establish screen capture on every open while it's not running (the
         // MediaProjection token is lost on each reboot). PROJECT_MEDIA=allow means
@@ -146,6 +173,8 @@ class MainActivity : AppCompatActivity() {
         ) {
             autoCaptureTried = true
             lastCaptureRequestMs = System.currentTimeMillis()
+            minimizeAfterCapture = intent?.getBooleanExtra(EXTRA_FROM_BOOT, false) == true
+            intent?.removeExtra(EXTRA_FROM_BOOT)
             requestCapture()
         }
         refreshStatus()
@@ -408,5 +437,6 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "VoltFlowNav"
         private const val SHIZUKU_PERMISSION_REQUEST = 9001
+        const val EXTRA_FROM_BOOT = "from_boot"
     }
 }

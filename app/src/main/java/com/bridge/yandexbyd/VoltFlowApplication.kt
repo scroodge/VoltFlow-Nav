@@ -12,7 +12,8 @@ class VoltFlowApplication : Application() {
         super.onCreate()
         InstallEventLogger.append(
             this,
-            "app_onCreate package=${packageName} version=${BuildConfig.VERSION_NAME}(${BuildConfig.VERSION_CODE})"
+            "app_onCreate package=$packageName version=${BuildConfig.VERSION_NAME}(${BuildConfig.VERSION_CODE})"
         )
+        InstallDiagnostics.dump(this, "application_onCreate")
     }
 }

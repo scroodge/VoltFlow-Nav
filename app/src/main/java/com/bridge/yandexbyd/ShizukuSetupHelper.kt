@@ -13,6 +13,12 @@ object ShizukuSetupHelper {
     private const val USER_SERVICE_VERSION = 1
     private const val USER_SERVICE_TAG = "voltflow_setup_v1"
 
+    // The vehicle daemon (and Shizuku) can come up slowly after a cold boot, so
+    // poll the binder a few times before giving up instead of failing the first
+    // self-start. Matches the 12-attempt local-ADB retry in the OpenBYD proxy.
+    private const val BINDER_POLL_ATTEMPTS = 12
+    private const val BINDER_POLL_INTERVAL_MS = 1000L
+
     fun isShizukuInstalled(context: android.content.Context): Boolean {
         val pm = context.packageManager
         return SHIZUKU_PACKAGES.any { pkg ->
@@ -38,12 +44,36 @@ object ShizukuSetupHelper {
         Shizuku.removeRequestPermissionResultListener(listener)
     }
 
+    /**
+     * Poll [isBinderAlive] up to [BINDER_POLL_ATTEMPTS] times so a slow Shizuku
+     * daemon after boot still binds. Runs on the caller thread; keep off the UI
+     * thread for the boot path.
+     */
+    fun awaitBinder(
+        attempts: Int = BINDER_POLL_ATTEMPTS,
+        intervalMs: Long = BINDER_POLL_INTERVAL_MS,
+    ): Boolean {
+        repeat(attempts) { i ->
+            if (isBinderAlive()) return true
+            if (i < attempts - 1) try {
+                Thread.sleep(intervalMs)
+            } catch (_: InterruptedException) {
+                return isBinderAlive()
+            }
+        }
+        return isBinderAlive()
+    }
+
     fun runSetup(
         context: android.content.Context,
         onResult: (Boolean) -> Unit,
     ) {
         if (!isBinderAlive()) {
-            onResult(false)
+            // Retry off the UI thread; the daemon may still be starting up.
+            Thread {
+                val ready = awaitBinder()
+                if (ready) runSetup(context, onResult) else onResult(false)
+            }.start()
             return
         }
         val connection = object : ServiceConnection {
@@ -57,7 +87,8 @@ object ShizukuSetupHelper {
                 val ok = runCatching {
                     service.grantWriteSecureSettings(pkg) &&
                         service.enableAccessibility(pkg, a11y) &&
-                        service.allowProjectMedia(pkg)
+                        service.allowProjectMedia(pkg) &&
+                        service.allowSystemAlertWindow(pkg)
                 }.getOrDefault(false)
                 Shizuku.unbindUserService(userServiceArgs(context), this, true)
                 onResult(ok)

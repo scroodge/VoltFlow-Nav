@@ -26,7 +26,7 @@ Package name: `moe.shizuku.privileged.api`
 1. Install **VoltFlow Nav** APK on the head unit ([Releases](https://github.com/scroodge/VoltFlow-Nav/releases)).
 2. Install **Shizuku** APK from GitHub or Play (see table above).
 3. Open **Shizuku** on the car — status should be **running**.
-4. Open **VoltFlow Nav** → tap **Grant via Shizuku** → allow Shizuku access when prompted.
+4. Open **VoltFlow Nav** → tap **Grant via Shizuku** → allow Shizuku access when prompted. Besides Accessibility and PROJECT_MEDIA this also grants SYSTEM_ALERT_WINDOW — without it Android 10 silently blocks capture auto-recovery after a reboot.
 5. Check that status tiles are checked: **Accessibility: OK** (and, if available, **PROJECT_MEDIA: OK**).
 6. Tap **Screen capture**.
 7. Tap **Open Disable background Apps** in VoltFlow (or **Settings → General → Disable background Apps**). Set **VoltFlow Nav** to **OFF**.
@@ -39,8 +39,11 @@ Package name: `moe.shizuku.privileged.api`
 
 ### Navigation
 
+- ⚠️ **Required for Yandex (v1.3.0+):** in Yandex open **Settings → Navigation** and turn on **"Show turn hints in the corner of the screen"** (the first switch). Without it, Yandex renders the hint inside the map when approaching a turn and the bridge **cannot** read the navigation data.
+- Both **Yandex Navigator** (`ru.yandex.yandexnavi`) and **Yandex Maps** (`ru.yandex.yandexmaps`) are supported.
 - Do **not** run BYD AMap navigation while using Yandex (it blocks third-party HUD updates).
-- Keep **Yandex Navigator visible** on screen during the route.
+- Keep Yandex (Navigator or Maps) **visible** on screen during the route.
+- The setup screen's **"HUD output" → "Instrument-cluster navigation widget"** switch can be turned off if the simulated AMap notifications conflict with the car's own navigation widget.
 
 ### DiLink target selector (v1.2.0+)
 

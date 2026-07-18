@@ -15,5 +15,6 @@ class InstallDebugReceiver : BroadcastReceiver() {
             context,
             "receiver_action=$action data=$data replacing=$replacing"
         )
+        InstallDiagnostics.dump(context, "receiver_$action")
     }
 }

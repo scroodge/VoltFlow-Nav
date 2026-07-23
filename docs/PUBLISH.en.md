@@ -51,7 +51,7 @@ Manual version:
 
 ```bash
 ./gradlew clean assembleRelease
-# Output: app/build/outputs/apk/release/VoltFlowNav-v1.2.0.apk
+# Output: app/build/outputs/apk/release/VoltFlowNav-v1.2.1.apk
 ```
 
 5. Commit, tag, and push:
